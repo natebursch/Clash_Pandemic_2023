@@ -7,7 +7,8 @@ public class WeaponManager : MonoBehaviour
     //or maybe use the muzzle? IDK
     public GameObject playerCam;
     public float bulletRange = 100f;
-    public float bulletDamage = 10f;
+    public float bulletBodyDamage = 50f;
+    public float bulletHeadShotDamage = 100f;
 
     public Animator animator;
 
@@ -45,12 +46,16 @@ public class WeaponManager : MonoBehaviour
 
         if (Physics.Raycast(playerCam.transform.position, transform.forward, out hit, bulletRange))
         {
-            Debug.Log(hit);
-           
-            if (hit.transform.GetComponent<EnemyManager>() != null)
+            if (hit.transform.gameObject.tag != null)
             {
-                EnemyManager enemy = hit.transform.GetComponent<EnemyManager>();
-                enemy.Hit(bulletDamage);
+                Debug.Log(hit.transform.gameObject.tag);
+            }
+
+           
+            if (hit.transform.GetComponentInParent<EnemyManager>() != null)
+            {
+                EnemyManager enemy = hit.transform.GetComponentInParent<EnemyManager>();
+                enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
             }
         }
 
