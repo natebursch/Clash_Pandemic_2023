@@ -24,7 +24,7 @@ public class WeaponSway : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (PhotonNetwork.InRoom && photonView.IsMine)
+        if (PhotonNetwork.InRoom && !photonView.IsMine)
         {
             return;
         }
