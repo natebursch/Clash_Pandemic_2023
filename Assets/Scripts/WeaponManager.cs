@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -51,6 +52,8 @@ public class WeaponManager : MonoBehaviour
 
     public PlayerManager playerManager;
 
+    public PhotonView photonView;
+
     //Start is called before the first frame update
     private void OnEnable()
     {
@@ -77,6 +80,10 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PhotonNetwork.InRoom && photonView.IsMine)
+        {
+            return;
+        }
 
         Aim();
 

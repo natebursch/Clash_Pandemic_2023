@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Photon.Pun;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class PlayerManager : MonoBehaviour
     public float currentPoints;
     public TextMeshProUGUI pointsText;
 
+    public PhotonView photonView;
+
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +47,11 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PhotonNetwork.InRoom && photonView.IsMine)
+        {
+            playerCamera.gameObject.SetActive(false);
+            return;
+        }
         if (hurtPanel.alpha > 0)
         {
             hurtPanel.alpha -= Time.deltaTime;

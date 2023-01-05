@@ -661,6 +661,7 @@ MonoBehaviour:
   xRotation: 0
   maxUpLook: 90
   maxDownLook: -90
+  photonView: {fileID: 2950974734767020637}
 --- !u!95 &1973454215052405316
 Animator:
   serializedVersion: 5
@@ -1139,6 +1140,7 @@ MonoBehaviour:
   ammoText: {fileID: 3751258997612700832}
   weaponType: Rifle
   playerManager: {fileID: 440410027189790666}
+  photonView: {fileID: 2950974734767020637}
 --- !u!82 &3344831735671560533
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4099,6 +4101,7 @@ GameObject:
   - component: {fileID: 3751258996609776025}
   - component: {fileID: 3751258996609776026}
   - component: {fileID: 2950974734767020637}
+  - component: {fileID: 4740392039243968421}
   m_Layer: 0
   m_Name: First_Person_Player
   m_TagString: Player
@@ -4170,6 +4173,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   jumpHeight: 4
+  photonView: {fileID: 2950974734767020637}
 --- !u!114 &440410027189790666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4197,6 +4201,7 @@ MonoBehaviour:
   activeWeapon: 0
   currentPoints: 0
   pointsText: {fileID: 3751258996313724805}
+  photonView: {fileID: 2950974734767020637}
 --- !u!54 &3751258996609776025
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4244,10 +4249,27 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents: []
+  ObservedComponents:
+  - {fileID: 4740392039243968421}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &4740392039243968421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3754359086470012683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
 --- !u!1 &4589225151283450849
 GameObject:
   m_ObjectHideFlags: 0
@@ -5049,6 +5071,7 @@ MonoBehaviour:
   ammoText: {fileID: 3751258997612700832}
   weaponType: Pistol
   playerManager: {fileID: 440410027189790666}
+  photonView: {fileID: 2950974734767020637}
 --- !u!82 &7569886450261194748
 AudioSource:
   m_ObjectHideFlags: 0
