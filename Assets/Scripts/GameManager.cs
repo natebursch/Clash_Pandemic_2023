@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         AudioListener.volume = 1;
+        spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
     }
 
     // Update is called once per frame
