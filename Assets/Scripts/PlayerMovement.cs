@@ -5,7 +5,10 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
-    public float speed = 12f;
+    public float walkSpeed = 5f;
+    public float sprintSpeed = 8f;
+    public float speed;
+    public bool isSprinting;
     public float x;
     public float z;
 
@@ -22,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     // jump stuff
     public float jumpHeight = 1f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +71,18 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = jumpHeight;
             //velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         }
+
+        if (Input.GetKey(KeyCode.LeftShift) && isGrounded)
+        {
+            isSprinting = true;
+            speed = sprintSpeed;
+        }
+        else
+        {
+            isSprinting = false;
+            speed = walkSpeed;
+        }
+
 
 
     }
