@@ -196,6 +196,14 @@ public class WeaponManager : MonoBehaviour
 
         }
     }
+    public void ShootVFX(int viewID)
+    {
+        if (photonView.ViewID == viewID)
+        {
+            muzzleFlash.Play();
+            audioSource.PlayOneShot(gunShot);
+        }
+    }
     void Shoot()
     {
         currentAmmo--;
@@ -203,9 +211,15 @@ public class WeaponManager : MonoBehaviour
         //waepon effects
         animator.SetBool("isShooting", true);
 
-        //particle system
-        muzzleFlash.Play();
-        audioSource.PlayOneShot(gunShot);
+        //sfx
+        if (PhotonNetwork.InRoom)
+        {
+            photonView.RPC("WeaponShootVFX", RpcTarget.All, photonView.ViewID);
+        }
+        else
+        {
+            ShootVFX(photonView.ViewID);
+        }
 
         //stores information in a raycast struct
         RaycastHit hit;
@@ -237,10 +251,17 @@ public class WeaponManager : MonoBehaviour
 
                 //enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
                 //if enemy health is < 0 add points
-                if (enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage))
+                enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage,photonView.ViewID);
+                EnemyManager enemyMan = enemy.GetComponent<EnemyManager>();
+
+                if (enemyMan.health <= 0 && !enemy.GetComponent<EnemyManager>().hasDied)
                 {
                     playerManager.UpdatePoints(enemy.worthPoints);
                 }
+                //if (enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage))
+                //{
+                //    playerManager.UpdatePoints(enemy.worthPoints);
+                //}
             }
             else
             {

@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Photon.Pun;
+using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoBehaviourPunCallbacks
 {
     public int enemiesAlive = 0;
     public int round = 0;
@@ -18,6 +21,8 @@ public class GameManager : MonoBehaviour
 
     public GameObject pauseScreen;
 
+    public PhotonView photonView;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,18 +34,38 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        if (enemiesAlive == 0)
+        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
         {
-            round++;
-            NextWave(round);
-            roundText.text = "" + round;
-        }
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Pause();
+            if (enemiesAlive == 0)
+            {
+                round++;
+                NextWave(round);
+
+                if (PhotonNetwork.InRoom)
+                {
+                    Hashtable hash = new Hashtable();
+                    hash.Add("CurrentRound", round);
+                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+                }
+                else
+                {
+                    DisplayNextRound(round);
+                }
+
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Pause();
+            }
         }
 
 
+
+    }
+
+    private void DisplayNextRound(int round)
+    {
+        roundText.text = "Round " + round;
     }
 
     public void NextWave(int round)
@@ -48,7 +73,18 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < round; i++)
         {
             GameObject spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-            GameObject enemy = Instantiate(enemyPrefab, spawnPoint.transform.position, Quaternion.identity);
+            GameObject enemy;
+
+            if (PhotonNetwork.InRoom)
+            {
+                enemy = PhotonNetwork.Instantiate("Zombie", spawnPoint.transform.position, Quaternion.identity);
+            }
+            else
+            {
+                enemy = Instantiate(Resources.Load("Zombie"), spawnPoint.transform.position, Quaternion.identity) as GameObject;
+
+            }
+
             enemy.GetComponent<EnemyManager>().gameManager = gameObject.GetComponent<GameManager>();
 
             enemiesAlive++;
@@ -57,9 +93,13 @@ public class GameManager : MonoBehaviour
     }
     public void EndGame()
     {
+        if (!PhotonNetwork.InRoom)
+        {
+            Time.timeScale = 0;
+        }
         endScreen.SetActive(true);
         AudioListener.volume = 0;
-        Time.timeScale = 0;
+
         Cursor.lockState = CursorLockMode.None;
 
         endRounds.text = "Rounds Sruvived: " + round;
@@ -68,29 +108,55 @@ public class GameManager : MonoBehaviour
 
     public void ReplayButtonPressed()
     {
-        Time.timeScale = 1;
+        if (!PhotonNetwork.InRoom)
+        {
+            Time.timeScale = 1;
+        }
         SceneManager.LoadScene("Game");
     }
 
     public void MainMenuButtonPressed()
     {
-        Time.timeScale = 1;
+        if (!PhotonNetwork.InRoom)
+        {
+            Time.timeScale = 1;
+        }
         SceneManager.LoadScene("MainMenu");
     }
 
     public void Pause()
     {
-       Time.timeScale = 0;
-       Cursor.lockState = CursorLockMode.None;
+        if (!PhotonNetwork.InRoom)
+        {
+            Time.timeScale = 0;
+        }
+        Cursor.lockState = CursorLockMode.None;
        AudioListener.volume = 0;
        pauseScreen.SetActive(true);
     }
 
     public void UnPause()
     {
-        Time.timeScale = 1;
+        if (!PhotonNetwork.InRoom)
+        {
+            Time.timeScale = 1;
+        }
         Cursor.lockState = CursorLockMode.Locked;
         AudioListener.volume = 1;
         pauseScreen.SetActive(false);
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+
+        Debug.Log("Player " + targetPlayer + " changed" + changedProps);
+        if (photonView.IsMine)
+        {
+            if (changedProps["CurrentRound"]!= null)
+            {
+                DisplayNextRound((int)changedProps["CurrentRound"]);
+            }
+        }
+
     }
 }

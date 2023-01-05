@@ -619,6 +619,8 @@ GameObject:
   - component: {fileID: 1973454215052405323}
   - component: {fileID: 1973454215052405317}
   - component: {fileID: 1973454215052405316}
+  - component: {fileID: 5205981901749257797}
+  - component: {fileID: 6393293364393786361}
   m_Layer: 0
   m_Name: Bob
   m_TagString: Untagged
@@ -682,6 +684,55 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &5205981901749257797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164407602319356145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1
+--- !u!114 &6393293364393786361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164407602319356145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 2
+    Name: isShooting
+  - Type: 4
+    SynchronizeType: 1
+    Name: isAiming
+  - Type: 4
+    SynchronizeType: 1
+    Name: isReloading
+  - Type: 9
+    SynchronizeType: 1
+    Name: Pistol
+  - Type: 9
+    SynchronizeType: 1
+    Name: Rifle
+  m_SynchronizeLayers:
+  - SynchronizeType: 2
+    LayerIndex: 0
 --- !u!1 &1176151105842111315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1128,13 +1179,13 @@ MonoBehaviour:
   aimSensitivity: 300
   normalSensitivity: 600
   crosshair: {fileID: 3751258995860045875}
-  canFullAuto: 0
+  canFullAuto: 1
   fireRate: 0.1
   fireRateTimer: 0
-  bulletForce: 1000
+  bulletForce: 2000
   currentAmmo: 100
   magazineSize: 100
-  reloadTime: 0.1
+  reloadTime: 1
   isReloading: 0
   reserveAmmo: 10000
   ammoText: {fileID: 3751258997612700832}
@@ -1197,7 +1248,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1916,9 +1967,9 @@ Canvas:
   m_GameObject: {fileID: 3751258996205916607}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
+  m_RenderMode: 1
+  m_Camera: {fileID: 3751258996542737615}
+  m_PlaneDistance: 0.15
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -3548,6 +3599,7 @@ MonoBehaviour:
   endScreen: {fileID: 3751258997482615595}
   endRounds: {fileID: 3751258997613921052}
   pauseScreen: {fileID: 3751258996753233189}
+  photonView: {fileID: 2950974734767020637}
 --- !u!1 &3751258997612700838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3855,7 +3907,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.000019073, y: 316}
+  m_AnchoredPosition: {x: -0.000019073, y: 316.00003}
   m_SizeDelta: {x: 257.4157, y: 89.7065}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3751258997714065645
@@ -4251,6 +4303,8 @@ MonoBehaviour:
   observableSearch: 2
   ObservedComponents:
   - {fileID: 4740392039243968421}
+  - {fileID: 5205981901749257797}
+  - {fileID: 6393293364393786361}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5060,12 +5114,12 @@ MonoBehaviour:
   normalSensitivity: 600
   crosshair: {fileID: 3751258995860045875}
   canFullAuto: 0
-  fireRate: 0.1
+  fireRate: 0.2
   fireRateTimer: 0
   bulletForce: 1000
   currentAmmo: 10
   magazineSize: 10
-  reloadTime: 10
+  reloadTime: 0.1
   isReloading: 0
   reserveAmmo: 150
   ammoText: {fileID: 3751258997612700832}
@@ -5128,7 +5182,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

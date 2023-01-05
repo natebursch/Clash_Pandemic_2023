@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Pun;
 public class EnemyManager : MonoBehaviour
 {
     public GameObject player;
@@ -23,12 +24,18 @@ public class EnemyManager : MonoBehaviour
     public AudioClip[] deathSounds;
     public bool hasDied;
 
-    public float worthPoints = 20; 
+    public float worthPoints = 20;
+
+    public GameObject[] players;
+
+    public PhotonView photonView;
     // Start is called before the first frame update
     void Start()
     {
         hasDied = false;
-        player = GameObject.FindGameObjectWithTag("Player");
+        players = GameObject.FindGameObjectsWithTag("Player");
+
+
         audioSource = GetComponent<AudioSource>();
 
         setRigidbodyState(true);
@@ -45,31 +52,65 @@ public class EnemyManager : MonoBehaviour
             audioSource.Play();
         }
 
-        if (health > 0)
+        if(PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
         {
-            GetComponent<NavMeshAgent>().destination = player.transform.position;
-        }
-        if (health < 0)
-        {
-            GetComponent<NavMeshAgent>().destination = transform.position;
+            //if not a master client
+            return;
         }
 
+        //find the closest player
+        GetClosestPlayer();
 
-        if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
+        if (player != null)
         {
-            
-            animator.SetBool("isRunning", true);
-            //animator.SetBool("isAttacking", false);
+            if (health > 0)
+            {
+                GetComponent<NavMeshAgent>().destination = player.transform.position;
+            }
+            if (health <= 0)
+            {
+                return;
+            }
 
+
+            if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
+            {
+
+                animator.SetBool("isRunning", true);
+                //animator.SetBool("isAttacking", false);
+
+            }
+            else
+            {
+                animator.SetBool("isRunning", false);
+                //animator.SetBool("isAttacking", true);
+            }
         }
-        else
-        {
-            animator.SetBool("isRunning", false);
-            //animator.SetBool("isAttacking", true);
-        }
+
 
 
     }
+
+    private void GetClosestPlayer()
+    {
+        float minDistance = Mathf.Infinity;
+        Vector3 curPos = transform.position;
+
+        foreach (GameObject thisPlayer in players)
+        {
+            if (thisPlayer != null)
+            {
+                float distance = Vector3.Distance(thisPlayer.transform.position, curPos);
+
+                if(distance < minDistance)
+                {
+                    player = thisPlayer;
+                    minDistance = distance;
+                }
+            }
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log(other);
@@ -107,42 +148,78 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public bool Hit(float damage)
+    public void Hit(float damage, int shooterID)
     {
-        health -= damage;
-        if (health <= 0)
-        {
-            return Die();
-
-        }
-        else { return false; }
+       photonView.RPC("TakeDamage", RpcTarget.All,damage,shooterID, photonView.ViewID);
     }
 
-    public bool Die()
+    [PunRPC]
+    public void TakeDamage(float damage,int shooterID, int viewID)
     {
-        
-        audioSource.Stop();
-        animator.enabled = false;
-        setRigidbodyState(false);
-        setColliderState(true);
-
-
-        if (!hasDied)
+        if (photonView.ViewID == viewID)
         {
-            gameManager.enemiesAlive--;
-            Destroy(gameObject, 5f);
-            hasDied = true;
-            return true;
-        }
-        else
-        {
-            hasDied = true;
-            return false;
+            health -= damage;
+            if (health <= 0)
+            {
+                audioSource.Stop();
+                animator.enabled = false;
+                setRigidbodyState(false);
+                setColliderState(true);
+
+
+                if (!hasDied)
+                {
+                    if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
+                    {
+                        gameManager.enemiesAlive--;
+                    }
+
+                    Destroy(GetComponent<NavMeshAgent>());
+                    Destroy(gameObject, 5f);
+                    hasDied = true;
+
+
+                    //attempt to add points to the shooter
+                    PhotonView.Find(shooterID).gameObject.GetComponent<PlayerManager>().UpdatePoints(worthPoints);
+                   
+                }
+                else
+                {
+                    hasDied = true;
+                    
+                }
+
+            }
+            
         }
 
-        
-        
     }
+
+    //public bool Die()
+    //{
+        
+    //    //audioSource.Stop();
+    //    //animator.enabled = false;
+    //    //setRigidbodyState(false);
+    //    //setColliderState(true);
+
+
+    //    //if (!hasDied)
+    //    //{
+    //    //    gameManager.enemiesAlive--;
+    //    //    Destroy(gameObject, 5f);
+    //    //    hasDied = true;
+    //    //    return true;
+    //    //}
+    //    //else
+    //    //{
+    //    //    hasDied = true;
+    //    //    return false;
+    //    //}
+
+        
+        
+    //}
 
     void setRigidbodyState(bool state)
     {

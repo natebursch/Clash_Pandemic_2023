@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+using Photon.Realtime;
 
-public class PlayerManager : MonoBehaviour
+
+public class PlayerManager : MonoBehaviourPunCallbacks
 {
     public float maxHealth = 150f;
     public float health = 100;
@@ -150,7 +153,22 @@ public class PlayerManager : MonoBehaviour
 
         activeWeapon = weaponToActivate;
 
+        if (photonView.IsMine)
+        {
+            Hashtable hash = new Hashtable();
+            hash.Add("weaponIndex", weaponToActivate);
+            hash.Add("currentWeapon", currentWeapon);
+            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        }
 
+
+    }
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    {
+        if (!photonView.IsMine && targetPlayer == photonView.Owner && changedProps["weaponIndex"]!= null && changedProps["currentWeapon"]!=null)
+        {
+            WeaponSwitch((int)changedProps["weaponIndex"], (int)changedProps["currentWeapon"]);
+        }
     }
     public void CameraShake()
     {
@@ -159,7 +177,29 @@ public class PlayerManager : MonoBehaviour
 
     public void Hit(float damage)
     {
-        UpdateHealth(-damage);
+        if (PhotonNetwork.InRoom)
+        {
+            photonView.RPC("PlayerRPCHit", RpcTarget.All, damage, photonView.ViewID);
+        }
+        else
+        {
+            PlayerRPCHit(damage,photonView.ViewID);
+        }
 
+    }
+
+    [PunRPC]
+    public void PlayerRPCHit(float damage, int viewID)
+    {
+        if (photonView.ViewID == viewID)
+        {
+            UpdateHealth(-damage);
+        }
+    }
+
+    [PunRPC]
+    public void WeaponShootVFX(int viewID)
+    {
+        weaponHolder[activeWeapon].GetComponent<WeaponManager>().ShootVFX(viewID);
     }
 }
