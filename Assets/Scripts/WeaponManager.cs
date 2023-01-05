@@ -14,6 +14,7 @@ public class WeaponManager : MonoBehaviour
     public Animator animator;
 
     public ParticleSystem muzzleFlash;
+    public GameObject hitBloodParticles;
     public GameObject hitParticles;
 
     public AudioClip gunShot;
@@ -21,7 +22,7 @@ public class WeaponManager : MonoBehaviour
 
     public bool isAiming;
 
-    public WeaponSway weaponSway;
+    //public WeaponSway weaponSway;
     float swaySensitivity;
     //public float aimSensitivity = 8;
 
@@ -31,6 +32,12 @@ public class WeaponManager : MonoBehaviour
 
     public GameObject crosshair;
 
+    public bool canFullAuto;
+    public float fireRate;
+    public float fireRateTimer;
+
+    //bullet impact force
+    public float bulletForce = 10000f;
 
     public int currentAmmo;
     public int magazineSize;
@@ -39,11 +46,30 @@ public class WeaponManager : MonoBehaviour
     public int reserveAmmo;
 
     public TextMeshProUGUI ammoText;
-    // Start is called before the first frame update
+
+    public string weaponType;
+
+    public PlayerManager playerManager;
+
+    //Start is called before the first frame update
+    private void OnEnable()
+    {
+        animator.SetTrigger(weaponType);
+        UpdateGUIText();
+    }
+
+    private void OnDisable()
+    {
+        //reset reloading
+        UpdateGUIText();
+        animator.SetBool("isReloading", false);
+        isReloading = false;
+    }
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        swaySensitivity = weaponSway.swaySensitivity;
+        //swaySensitivity = weaponSway.swaySensitivity;
 
         UpdateGUIText();
     }
@@ -61,19 +87,29 @@ public class WeaponManager : MonoBehaviour
 
         Reload();
 
-
-
-
+        //count down on the timer
+        if (fireRateTimer > 0)
+        {
+            fireRateTimer -= Time.deltaTime;
+        }
         //get left click
-        if (Input.GetButtonDown("Fire1") && !isReloading && currentAmmo > 0)
+
+        if (Input.GetKey(KeyCode.Mouse0) && !isReloading && currentAmmo > 0 && fireRateTimer <= 0 && canFullAuto)
         {
             //Debug.Log("SHOOT");
             Shoot();
+            fireRateTimer = fireRate;
 
 
         }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && !isReloading && currentAmmo > 0 && fireRateTimer <= 0 && !canFullAuto)
+        {
+            Shoot();
+            fireRateTimer = fireRate;
+        }
+
     }
-    void UpdateGUIText()
+    public void UpdateGUIText()
     {
         ammoText.text = currentAmmo + "/" + reserveAmmo;
     }
@@ -136,7 +172,7 @@ public class WeaponManager : MonoBehaviour
         {
             isAiming = true;
             animator.SetBool("isAiming", true);
-            weaponSway.swaySensitivity = aimSensitivity;
+            //weaponSway.swaySensitivity = aimSensitivity;
             mouseLook.mouseSensitvity = aimSensitivity;
 
             crosshair.SetActive(false);
@@ -145,7 +181,7 @@ public class WeaponManager : MonoBehaviour
         {
             isAiming = false;
             animator.SetBool("isAiming", false);
-            weaponSway.swaySensitivity = swaySensitivity;
+            //weaponSway.swaySensitivity = swaySensitivity;
             mouseLook.mouseSensitvity = normalSensitivity;
 
 
@@ -169,28 +205,42 @@ public class WeaponManager : MonoBehaviour
 
         if (Physics.Raycast(playerCam.transform.position, playerCam.transform.forward, out hit, bulletRange))
         {
-            if (hit.transform.gameObject.tag != null)
+            if (hit.transform.gameObject.tag == null)
             {
-                Debug.Log(hit.transform.gameObject.tag);
+                return;
             }
 
-           
+            Debug.Log(hit.transform.gameObject.tag);
+
             if (hit.transform.GetComponentInParent<EnemyManager>() != null)
             {
                 EnemyManager enemy = hit.transform.GetComponentInParent<EnemyManager>();
 
+
+
+                //add force
+                //hit.rigidbody.isKinematic = true;
+                hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
+
+                GameObject hitObject = Instantiate(hitBloodParticles, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(hitObject, .5f);
+
+                hitObject.GetComponent<ParticleSystem>().Play();
+                //hitObject.transform.position = hit.transform.position;
+
+                //enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
+                //if enemy health is < 0 add points
+                if (enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage))
+                {
+                    playerManager.UpdatePoints(enemy.worthPoints);
+                }
+            }
+            else
+            {
                 GameObject hitObject = Instantiate(hitParticles, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(hitObject, .5f);
 
                 hitObject.GetComponent<ParticleSystem>().Play();
-                hitObject.transform.position = hit.transform.position;
-
-                enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
-
-
-
-
-                
             }
         }
 

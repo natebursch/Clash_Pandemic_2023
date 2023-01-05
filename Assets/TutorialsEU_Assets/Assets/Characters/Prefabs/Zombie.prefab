@@ -2367,7 +2367,7 @@ MonoBehaviour:
   attackDelayTimer: 0
   attackDelay: 0.5
   attackAnimStartDelay: 0.5
-  delayBetweenAttacks: 1
+  delayBetweenAttacks: 0.5
   audioSource: {fileID: 7586101047050357994}
   zombieSounds:
   - {fileID: 8300000, guid: 4c285a791c630e7478685ebcf5a3cc19, type: 3}
@@ -2375,6 +2375,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 119480eacbb7d944f9af8d37bb87a35e, type: 3}
   deathSounds: []
   hasDied: 0
+  worthPoints: 20
 --- !u!195 &28866247381120975
 NavMeshAgent:
   m_ObjectHideFlags: 0

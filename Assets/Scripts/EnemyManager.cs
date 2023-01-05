@@ -22,6 +22,8 @@ public class EnemyManager : MonoBehaviour
     public AudioClip[] zombieSounds;
     public AudioClip[] deathSounds;
     public bool hasDied;
+
+    public float worthPoints = 20; 
     // Start is called before the first frame update
     void Start()
     {
@@ -47,6 +49,10 @@ public class EnemyManager : MonoBehaviour
         {
             GetComponent<NavMeshAgent>().destination = player.transform.position;
         }
+        if (health < 0)
+        {
+            GetComponent<NavMeshAgent>().destination = transform.position;
+        }
 
 
         if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
@@ -64,15 +70,17 @@ public class EnemyManager : MonoBehaviour
 
 
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject == player)
+        Debug.Log(other);
+        if (other.gameObject == player)
         {
             playerInReach = true;
 
         }
     }
-    private void OnCollisionStay(Collision collision)
+ 
+    private void OnTriggerStay(Collider other)
     {
         if (playerInReach)
         {
@@ -84,13 +92,14 @@ public class EnemyManager : MonoBehaviour
         }
         if (attackDelayTimer >= delayBetweenAttacks && playerInReach)
         {
+            Debug.Log("Do Damage xZobmie");
             player.GetComponent<PlayerManager>().Hit(damage);
             attackDelayTimer = 0;
         }
     }
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
-        if (collision.gameObject == player)
+        if (other.gameObject == player)
         {
             playerInReach = false;
             animator.SetBool("isAttacking",false);
@@ -98,18 +107,18 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void Hit(float damage)
+    public bool Hit(float damage)
     {
-        Debug.Log(damage);
         health -= damage;
-        Debug.Log("Enemy Health " + health);
-        if (health<= 0)
+        if (health <= 0)
         {
-            Die();
+            return Die();
+
         }
+        else { return false; }
     }
 
-    public void Die()
+    public bool Die()
     {
         
         audioSource.Stop();
@@ -122,9 +131,16 @@ public class EnemyManager : MonoBehaviour
         {
             gameManager.enemiesAlive--;
             Destroy(gameObject, 5f);
+            hasDied = true;
+            return true;
+        }
+        else
+        {
+            hasDied = true;
+            return false;
         }
 
-        hasDied = true;
+        
         
     }
 
