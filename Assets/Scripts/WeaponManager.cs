@@ -12,10 +12,15 @@ public class WeaponManager : MonoBehaviour
 
     public Animator animator;
 
+    public ParticleSystem muzzleFlash;
+    public GameObject hitParticles;
+
+    public AudioClip gunShot;
+    public AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -41,6 +46,10 @@ public class WeaponManager : MonoBehaviour
         //waepon effects
         animator.SetBool("isShooting", true);
 
+        //particle system
+        muzzleFlash.Play();
+        audioSource.PlayOneShot(gunShot);
+
         //stores information in a raycast struct
         RaycastHit hit;
 
@@ -56,6 +65,15 @@ public class WeaponManager : MonoBehaviour
             {
                 EnemyManager enemy = hit.transform.GetComponentInParent<EnemyManager>();
                 enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
+
+
+                GameObject hitObject = Instantiate(hitParticles, hit.point,Quaternion.LookRotation(hit.normal));
+                Destroy(hitObject, .5f);
+
+                hitObject.GetComponent<ParticleSystem>().Play();
+                hitObject.transform.position = hit.transform.parent.position;
+
+                
             }
         }
 
