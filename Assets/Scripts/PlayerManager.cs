@@ -24,6 +24,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     public GameObject[] weaponHolder;
     public int activeWeapon;
+    public int lastWeapon;
 
     public float currentPoints;
     public TextMeshProUGUI pointsText;
