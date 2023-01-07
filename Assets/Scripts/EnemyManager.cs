@@ -59,6 +59,19 @@ public class EnemyManager : MonoBehaviour
         }
 
         //find the closest player
+
+
+        /// HERE IS HOW TO FIXZ THE ASLGASGAGAF LAG YOU DUMBy
+        /// INSTEAD OF CALCULATING THIS AT ALL TIMES AND CALCULATING ALL THIS JUNK,
+        /// MAKE A COLLIDER THAT IS THE RANGE OF THE ZOMBIE
+        /// AND THEN ONLY WHEN A PLAYER ENTERS THE RANGE ARE THEY INCLUDED IN THE CALCULATION
+        /// AND ONLY CALCULATE THOSE PLAYERS IN DISTANCE
+        /// AND THEN YOU CAN START THE NAVIGATION PROCESS
+        /// OTHERWISE JUST LET THEM ROAM AROUND
+        /// OR DO NOTHING
+        /// IN FACE
+        /// DONT EVEN HAVE THEM SPAWN ALL THERE MATERIALS AND SHTUFF
+        /// 
         GetClosestPlayer();
 
         if (player != null)

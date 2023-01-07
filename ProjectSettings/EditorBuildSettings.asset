@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Game.unity
     guid: c7ae29c161d098a4096a5571b7d84a4b
   - enabled: 1
-    path: Assets/Scenes/Game Online.unity
+    path: Assets/Scenes/Pandemic_1.unity
     guid: a90bdf0c5e1619d4ba91714fa1673a3b
   m_configObjects: {}
