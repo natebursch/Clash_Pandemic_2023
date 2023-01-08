@@ -280,6 +280,35 @@ public class WeaponManager : MonoBehaviour
                     hitPlayerManger.Hit(bulletBodyDamage);
                 }
             }
+            //if hit basic zombie.... LOL i just need to make some inheritence go on, but we can do that later........ maybe
+            else if(hit.transform.GetComponentInParent<ZombieBasicManager>()!= null)
+            {
+                ZombieBasicManager enemy = hit.transform.GetComponentInParent<ZombieBasicManager>();
+                //add force
+                //hit.rigidbody.isKinematic = true;
+                hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
+
+                GameObject hitObject = Instantiate(hitBloodParticles, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(hitObject, .5f);
+
+                hitObject.GetComponent<ParticleSystem>().Play();
+                //hitObject.transform.position = hit.transform.position;
+
+                //enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
+                //if enemy health is < 0 add points
+                enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage, photonView.ViewID, gameObject);
+                ZombieBasicManager enemyMan = enemy.GetComponent<ZombieBasicManager>();
+
+                if (enemyMan.health <= 0 && !enemy.GetComponent<ZombieBasicManager>().hasDied)
+                {
+                    playerManager.UpdatePoints(enemy.worthPoints);
+                }
+                //if (enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage))
+                //{
+                //    playerManager.UpdatePoints(enemy.worthPoints);
+                //}
+            }
+
             else
             {
                 GameObject hitObject = Instantiate(hitParticles, hit.point, Quaternion.LookRotation(hit.normal));
@@ -287,6 +316,7 @@ public class WeaponManager : MonoBehaviour
 
                 hitObject.GetComponent<ParticleSystem>().Play();
             }
+
         }
 
 
