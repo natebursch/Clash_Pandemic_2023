@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class ZombieDamageElement : MonoBehaviour
 {
@@ -9,7 +10,14 @@ public class ZombieDamageElement : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
+
+        if (PhotonNetwork.InRoom && !PhotonNetwork.IsMasterClient)
+        {
+            //if not a master client
+            return;
+        }
         Debug.Log(other);
+        //might need photon pun thing to be happening here
         if (animator.GetBool("isAttacking") == true && other.gameObject.GetComponent<PlayerManager>())
         {
             Debug.Log("Attack Player");

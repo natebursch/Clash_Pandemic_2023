@@ -1168,6 +1168,7 @@ MonoBehaviour:
   bulletRange: 100
   bulletBodyDamage: 50
   bulletHeadShotDamage: 100
+  friendlyFireReduction: 3
   animator: {fileID: 1973454215052405316}
   muzzleFlash: {fileID: 7426530299327055878}
   hitBloodParticles: {fileID: 1598743696324012867, guid: c2e15e6aa2263c846ac043b68ea6cefa, type: 3}
@@ -4151,7 +4152,7 @@ GameObject:
   - component: {fileID: 1426990722908646774}
   - component: {fileID: 440410027189790666}
   - component: {fileID: 3751258996609776025}
-  - component: {fileID: 3751258996609776026}
+  - component: {fileID: 53557279696910101}
   - component: {fileID: 2950974734767020637}
   - component: {fileID: 4740392039243968421}
   m_Layer: 0
@@ -4272,8 +4273,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
---- !u!135 &3751258996609776026
-SphereCollider:
+--- !u!136 &53557279696910101
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -4282,9 +4283,10 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1.5
-  m_Center: {x: 0, y: 0.4, z: 0}
+  m_Radius: 0.5
+  m_Height: 1.9972
+  m_Direction: 1
+  m_Center: {x: 0, y: -0.3290751, z: 0}
 --- !u!114 &2950974734767020637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5104,6 +5106,7 @@ MonoBehaviour:
   bulletRange: 100
   bulletBodyDamage: 25
   bulletHeadShotDamage: 100
+  friendlyFireReduction: 3
   animator: {fileID: 1973454215052405316}
   muzzleFlash: {fileID: 2038930245408122888}
   hitBloodParticles: {fileID: 1598743696324012867, guid: c2e15e6aa2263c846ac043b68ea6cefa, type: 3}
