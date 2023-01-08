@@ -250,7 +250,7 @@ public class WeaponManager : MonoBehaviour
 
                 //enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
                 //if enemy health is < 0 add points
-                enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage,photonView.ViewID);
+                enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage,photonView.ViewID, gameObject);
                 EnemyManager enemyMan = enemy.GetComponent<EnemyManager>();
 
                 if (enemyMan.health <= 0 && !enemy.GetComponent<EnemyManager>().hasDied)

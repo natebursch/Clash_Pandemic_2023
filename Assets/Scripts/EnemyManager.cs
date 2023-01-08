@@ -29,6 +29,14 @@ public class EnemyManager : MonoBehaviour
     public GameObject[] players;
 
     public PhotonView photonView;
+
+    public float attackDistance = 25;
+    public float randomDistance = 5;
+    public bool isClose = false;
+
+    public float runningSpeed = 5.5f;
+    public float walkingSpeed = 2f;
+    public bool walkingRandomPlace = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -72,13 +80,68 @@ public class EnemyManager : MonoBehaviour
         /// IN FACE
         /// DONT EVEN HAVE THEM SPAWN ALL THERE MATERIALS AND SHTUFF
         /// 
-        GetClosestPlayer();
+        float distance = GetClosestPlayer();
 
         if (player != null)
         {
             if (health > 0)
             {
-                GetComponent<NavMeshAgent>().destination = player.transform.position;
+
+
+
+                //if allowed to chase
+                if (distance < attackDistance)
+                {
+                    isClose = true;
+                    GetComponent<NavMeshAgent>().destination = player.transform.position;
+
+                    GetComponent<NavMeshAgent>().speed = runningSpeed;
+
+                    //if running
+                    if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
+                    {
+
+                        animator.SetBool("isRunning", true);
+                        animator.SetBool("isWalking", false);
+                        animator.SetBool("isAttacking", false);
+
+                        
+
+
+                    }
+                    else
+                    {
+                        animator.SetBool("isRunning", false);
+                        animator.SetBool("isWalking", false);
+
+                        animator.SetBool("isAttacking", true);
+                    }
+                }
+                else
+                {
+                    if (walkingRandomPlace)
+                    {
+                        Vector3 curPos = transform.position;
+                        float distanceToRAndomPoint = Vector3.Distance(GetComponent<NavMeshAgent>().destination, curPos);
+                        if (distanceToRAndomPoint > 1.75f)
+                        {
+                            return;
+                        }
+
+                        walkingRandomPlace = false;
+                    }
+                    walkingRandomPlace = true;
+                    isClose = false;
+                    animator.SetBool("isRunning", false);
+                    animator.SetBool("isWalking", true);
+                    animator.SetBool("isAttacking", false);
+
+                    GetComponent<NavMeshAgent>().speed = walkingSpeed;
+
+                    Vector3 patrolPoint = RandNavMeshLocation();
+                    GetComponent<NavMeshAgent>().destination = patrolPoint;
+                }
+
             }
             if (health <= 0)
             {
@@ -86,39 +149,28 @@ public class EnemyManager : MonoBehaviour
             }
 
 
-            if (GetComponent<NavMeshAgent>().velocity.magnitude > 1)
-            {
 
-                animator.SetBool("isRunning", true);
-                animator.SetBool("isAttacking", false);
-
-            }
-            else
-            {
-                animator.SetBool("isRunning", false);
-                animator.SetBool("isAttacking", true);
-
-
-                //attackDelayTimer += Time.deltaTime;
-              
-                //if (attackDelayTimer >= delayBetweenAttacks - attackAnimStartDelay && attackDelayTimer <= delayBetweenAttacks)
-                //{
-                //    animator.SetTrigger("isAttacking");
-                //}
-                //if (attackDelayTimer >= delayBetweenAttacks)
-                //{
-                //    Debug.Log("Do Damage xZobmie");
-                //    player.GetComponent<PlayerManager>().Hit(damage);
-                //    attackDelayTimer = 0;
-                //}
-            }
         }
 
 
 
     }
+    public Vector3 RandNavMeshLocation()
+    {
 
-    private void GetClosestPlayer()
+        Vector3 pos = Vector3.zero;
+        Vector3 randomPos = Random.insideUnitSphere * randomDistance;
+        randomPos += transform.position;
+
+        if (NavMesh.SamplePosition(randomPos, out NavMeshHit hit, randomDistance, 1))
+        {
+            pos = hit.position;
+        }
+        return pos;
+
+    }
+        
+        private float GetClosestPlayer()
     {
         float minDistance = Mathf.Infinity;
         Vector3 curPos = transform.position;
@@ -136,6 +188,7 @@ public class EnemyManager : MonoBehaviour
                 }
             }
         }
+        return minDistance;
     }
 
     //private void OnTriggerEnter(Collider other)
@@ -175,9 +228,50 @@ public class EnemyManager : MonoBehaviour
     //    }
     //}
 
-    public void Hit(float damage, int shooterID)
+    public void Hit(float damage, int shooterID,GameObject attacker)
     {
-       photonView.RPC("TakeDamage", RpcTarget.All,damage,shooterID, photonView.ViewID);
+        if (PhotonNetwork.InRoom)
+        {
+            photonView.RPC("TakeDamage", RpcTarget.All, damage, shooterID, photonView.ViewID);
+        }
+        else
+        {
+
+                health -= damage;
+                if (health <= 0)
+                {
+                    audioSource.Stop();
+                    animator.enabled = false;
+                    setRigidbodyState(false);
+                    setColliderState(true);
+
+
+                    if (!hasDied)
+                    {
+
+                        gameManager.enemiesAlive--;
+
+                        Destroy(GetComponent<NavMeshAgent>());
+                        Destroy(gameObject, 5f);
+                        hasDied = true;
+
+
+                    //attempt to add points to the shooter
+                    attacker.GetComponentInParent<PlayerManager>().UpdatePoints(worthPoints);
+                        
+
+                    }
+                    else
+                    {
+                        hasDied = true;
+
+                    }
+
+                }
+
+            
+        }
+       
     }
 
     [PunRPC]

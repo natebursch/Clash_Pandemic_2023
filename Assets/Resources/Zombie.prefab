@@ -2423,6 +2423,12 @@ MonoBehaviour:
   worthPoints: 20
   players: []
   photonView: {fileID: 4856272754872058881}
+  attackDistance: 10
+  randomDistance: 5
+  isClose: 0
+  runningSpeed: 5.5
+  walkingSpeed: 0.4
+  walkingRandomPlace: 0
 --- !u!195 &28866247381120975
 NavMeshAgent:
   m_ObjectHideFlags: 0
