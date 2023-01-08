@@ -8,6 +8,8 @@ TagManager:
   - Head
   - Bullet
   - Spawners
+  - PlayerSpawner
+  - AttackHand
   layers:
   - Default
   - TransparentFX

@@ -1471,9 +1471,10 @@ GameObject:
   - component: {fileID: 835043289}
   - component: {fileID: 835043290}
   - component: {fileID: 835043288}
+  - component: {fileID: 2606694642138214808}
   m_Layer: 0
-  m_Name: RightForeArm
-  m_TagString: Untagged
+  m_Name: Attack Hand
+  m_TagString: AttackHand
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1570,6 +1571,20 @@ CharacterJoint:
   m_EnablePreprocessing: 0
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2606694642138214808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462216437493948991}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4da989e3421b1244f9935e4fdbd2e764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 7544459490567584518}
+  enemyManager: {fileID: 5986278668056373904}
 --- !u!1 &3521506093464179385
 GameObject:
   m_ObjectHideFlags: 0

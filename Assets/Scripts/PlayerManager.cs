@@ -29,6 +29,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public float currentPoints;
     public TextMeshProUGUI pointsText;
 
+    public int teamNumber;
+
+
     public PhotonView photonView;
 
 

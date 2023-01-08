@@ -4251,8 +4251,10 @@ MonoBehaviour:
   - {fileID: 7081474122729663833}
   - {fileID: 3344831735671560532}
   activeWeapon: 0
+  lastWeapon: 0
   currentPoints: 0
   pointsText: {fileID: 3751258996313724805}
+  teamNumber: 0
   photonView: {fileID: 2950974734767020637}
 --- !u!54 &3751258996609776025
 Rigidbody:

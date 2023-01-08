@@ -38,8 +38,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (PhotonNetwork.InRoom && !photonView.IsMine)
         {
+            
             return;
         }
         isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundLayerMask);

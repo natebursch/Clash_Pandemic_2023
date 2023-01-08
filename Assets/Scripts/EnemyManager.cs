@@ -90,13 +90,27 @@ public class EnemyManager : MonoBehaviour
             {
 
                 animator.SetBool("isRunning", true);
-                //animator.SetBool("isAttacking", false);
+                animator.SetBool("isAttacking", false);
 
             }
             else
             {
                 animator.SetBool("isRunning", false);
-                //animator.SetBool("isAttacking", true);
+                animator.SetBool("isAttacking", true);
+
+
+                //attackDelayTimer += Time.deltaTime;
+              
+                //if (attackDelayTimer >= delayBetweenAttacks - attackAnimStartDelay && attackDelayTimer <= delayBetweenAttacks)
+                //{
+                //    animator.SetTrigger("isAttacking");
+                //}
+                //if (attackDelayTimer >= delayBetweenAttacks)
+                //{
+                //    Debug.Log("Do Damage xZobmie");
+                //    player.GetComponent<PlayerManager>().Hit(damage);
+                //    attackDelayTimer = 0;
+                //}
             }
         }
 
@@ -124,42 +138,42 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other);
-        if (other.gameObject == player)
-        {
-            playerInReach = true;
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    Debug.Log(other);
+    //    if (other.gameObject == player)
+    //    {
+    //        playerInReach = true;
 
-        }
-    }
+    //    }
+    //}
  
-    private void OnTriggerStay(Collider other)
-    {
-        if (playerInReach)
-        {
-            attackDelayTimer += Time.deltaTime;
-        }
-        if (attackDelayTimer >= delayBetweenAttacks - attackAnimStartDelay && attackDelayTimer <= delayBetweenAttacks && playerInReach)
-        {
-            animator.SetTrigger("isAttacking");
-        }
-        if (attackDelayTimer >= delayBetweenAttacks && playerInReach)
-        {
-            Debug.Log("Do Damage xZobmie");
-            player.GetComponent<PlayerManager>().Hit(damage);
-            attackDelayTimer = 0;
-        }
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject == player)
-        {
-            playerInReach = false;
-            animator.SetBool("isAttacking",false);
-            attackDelayTimer = 0;
-        }
-    }
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    if (playerInReach)
+    //    {
+    //        attackDelayTimer += Time.deltaTime;
+    //    }
+    //    if (attackDelayTimer >= delayBetweenAttacks - attackAnimStartDelay && attackDelayTimer <= delayBetweenAttacks && playerInReach)
+    //    {
+    //        animator.SetTrigger("isAttacking");
+    //    }
+    //    if (attackDelayTimer >= delayBetweenAttacks && playerInReach)
+    //    {
+    //        Debug.Log("Do Damage xZobmie");
+    //        player.GetComponent<PlayerManager>().Hit(damage);
+    //        attackDelayTimer = 0;
+    //    }
+    //}
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.gameObject == player)
+    //    {
+    //        playerInReach = false;
+    //        animator.SetBool("isAttacking",false);
+    //        attackDelayTimer = 0;
+    //    }
+    //}
 
     public void Hit(float damage, int shooterID)
     {
@@ -250,8 +264,10 @@ public class EnemyManager : MonoBehaviour
 
         foreach (Collider collider in colliders)
         {
-            if (collider.gameObject.tag != "Head")
+            //make sure the colllider is tagged
+            if (collider.gameObject.tag != "Head" && collider.gameObject.tag != "AttackHand")
             {
+                Debug.Log(collider.gameObject.tag);
                 collider.enabled = state;
             }
 

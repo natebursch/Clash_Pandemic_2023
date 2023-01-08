@@ -11,6 +11,7 @@ public class WeaponManager : MonoBehaviour
     public float bulletRange = 100f;
     public float bulletBodyDamage = 50f;
     public float bulletHeadShotDamage = 100f;
+    public float friendlyFireReduction = 3;
 
     public Animator animator;
 
@@ -233,12 +234,10 @@ public class WeaponManager : MonoBehaviour
 
             Debug.Log(hit.transform.gameObject.tag);
 
+            //if hit a zombie
             if (hit.transform.GetComponentInParent<EnemyManager>() != null)
             {
                 EnemyManager enemy = hit.transform.GetComponentInParent<EnemyManager>();
-
-
-
                 //add force
                 //hit.rigidbody.isKinematic = true;
                 hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
@@ -262,6 +261,24 @@ public class WeaponManager : MonoBehaviour
                 //{
                 //    playerManager.UpdatePoints(enemy.worthPoints);
                 //}
+            }
+            //if hit player
+            else if (hit.transform.GetComponentInParent<PlayerManager>()!=null)
+            {
+                PlayerManager hitPlayerManger = hit.transform.GetComponentInParent<PlayerManager>();
+                if (hitPlayerManger.teamNumber == gameObject.GetComponentInParent<PlayerManager>().teamNumber)
+                {
+                    //same team
+                    Debug.Log("Do reduced damage");
+                    //check if body or head but i dont have it set up atm
+                    hitPlayerManger.Hit(bulletBodyDamage / friendlyFireReduction);
+
+                }
+                else
+                {
+                    //also need headshots here but dont have that yet
+                    hitPlayerManger.Hit(bulletBodyDamage);
+                }
             }
             else
             {
