@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 {
     public int enemiesAlive = 0;
     public int round = 0;
+
     public GameObject[] spawnPoints;
     public GameObject enemyPrefab;
 
@@ -28,36 +29,50 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         //AudioListener.volume = 1;
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
+        roundText.gameObject.SetActive(false);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
-        {
-            if (enemiesAlive == 0)
-            {
-                round++;
-                NextWave(round);
+        //if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
+        //{
+            
+   
 
-                if (PhotonNetwork.InRoom)
-                {
-                    Hashtable hash = new Hashtable();
-                    hash.Add("CurrentRound", round);
-                    PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
-                }
-                else
-                {
-                    DisplayNextRound(round);
-                }
 
-            }
-            //if (Input.GetKeyDown(KeyCode.Escape))
-            //{
-            //    Pause();
-            //}
-        }
+            
+
+        //    if (enemiesAlive == 0)
+        //    {
+        //        round++;
+        //        NextWave(round);
+
+        //        if (PhotonNetwork.InRoom)
+        //        {
+        //            Hashtable hash = new Hashtable();
+        //            hash.Add("CurrentRound", round);
+        //            PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
+        //        }
+        //        else
+        //        {
+        //            DisplayNextRound(round);
+        //        }
+
+        //    }
+
+        //    if (round == 10)
+        //    {
+                
+
+        //        //we want to start a timer for the people to extract
+        //    }
+
+
+
+        
 
 
 
@@ -102,7 +117,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         Cursor.lockState = CursorLockMode.None;
 
-        endRounds.text = "Rounds Sruvived: " + round;
+        endRounds.text = "Rounds Survived: " + round;
 
     }
 
