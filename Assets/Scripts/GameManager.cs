@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        AudioListener.volume = 1;
+        //AudioListener.volume = 1;
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
     }
 
@@ -53,10 +53,10 @@ public class GameManager : MonoBehaviourPunCallbacks
                 }
 
             }
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                Pause();
-            }
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    Pause();
+            //}
         }
 
 
@@ -98,7 +98,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Time.timeScale = 0;
         }
         endScreen.SetActive(true);
-        AudioListener.volume = 0;
+        //AudioListener.volume = 0;
 
         Cursor.lockState = CursorLockMode.None;
 
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Time.timeScale = 0;
         }
         Cursor.lockState = CursorLockMode.None;
-       AudioListener.volume = 0;
+       //AudioListener.volume = 0;
        pauseScreen.SetActive(true);
     }
 
@@ -142,7 +142,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Time.timeScale = 1;
         }
         Cursor.lockState = CursorLockMode.Locked;
-        AudioListener.volume = 1;
+        //AudioListener.volume = 1;
         pauseScreen.SetActive(false);
     }
 

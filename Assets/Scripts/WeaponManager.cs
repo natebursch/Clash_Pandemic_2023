@@ -55,6 +55,10 @@ public class WeaponManager : MonoBehaviour
 
     public PhotonView photonView;
 
+    public float aimFOV = 25f;
+    public float normalFOV = 60f;
+    public float aimSpeed = .1f;
+
     //Start is called before the first frame update
     private void OnEnable()
     {
@@ -183,6 +187,9 @@ public class WeaponManager : MonoBehaviour
             //weaponSway.swaySensitivity = aimSensitivity;
             mouseLook.mouseSensitvity = aimSensitivity;
 
+            playerCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(playerCam.GetComponent<Camera>().fieldOfView,aimFOV, aimSpeed);
+
+
             crosshair.SetActive(false);
         }
         else
@@ -191,6 +198,8 @@ public class WeaponManager : MonoBehaviour
             animator.SetBool("isAiming", false);
             //weaponSway.swaySensitivity = swaySensitivity;
             mouseLook.mouseSensitvity = normalSensitivity;
+
+            playerCam.GetComponent<Camera>().fieldOfView = Mathf.Lerp(playerCam.GetComponent<Camera>().fieldOfView, normalFOV, aimSpeed);
 
 
             crosshair.SetActive(true);

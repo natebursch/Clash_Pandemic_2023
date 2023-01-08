@@ -361,7 +361,7 @@ public class EnemyManager : MonoBehaviour
             //make sure the colllider is tagged
             if (collider.gameObject.tag != "Head" && collider.gameObject.tag != "AttackHand")
             {
-                Debug.Log(collider.gameObject.tag);
+                //Debug.Log(collider.gameObject.tag);
                 collider.enabled = state;
             }
 

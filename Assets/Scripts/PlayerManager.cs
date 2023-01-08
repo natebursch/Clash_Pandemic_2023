@@ -100,6 +100,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         }
 
     }
+    public void WeaponSwitching()
+    {
+
+    }
 
     public void UpdateHealth(float points)
     {

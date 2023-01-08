@@ -28,7 +28,7 @@ public class ZombieSpawnPoint : MonoBehaviour
         //if the spawner has already spawned the zombie, don't spawn again.
         if (!hasSpawned && other.gameObject.tag == "Player")
         {
-            Debug.Log("Spawn Enemy cuz of" + other.gameObject);
+            //Debug.Log("Spawn Enemy cuz of" + other.gameObject);
 
             for (int i = 0; i < zombiesToSpawn; i++)
             {
