@@ -5,13 +5,16 @@ using Photon.Pun;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Camera playerCamera;
     public CharacterController controller;
     public float walkSpeed = 5f;
     public float sprintSpeed = 8f;
     public float speed;
     public bool isSprinting;
+    public bool isMoving;
     public float x;
     public float z;
+    public bool isAiming;
 
 
     // feels really fast but we can change later
@@ -27,12 +30,41 @@ public class PlayerMovement : MonoBehaviour
     // jump stuff
     public float jumpHeight = 1f;
 
+
+    [Header("HeadBob")]
+    public bool canHeadBob = true;
+    public float walkBobSpeed = 14f;
+    public float sprintBobSpeed = 18f;
+
+    public float coruchBobSpeed = 8f;
+    public float crouchBobAmount = .025f;
+
+    public float walkBobAmountx = .001f;
+    public float walkBobAmounty = .001f;
+    public float walkBobAmountz = .001f;
+
+    public float sprintBobAmountx = .005f;
+    public float sprintBobAmounty = .005f;
+    public float sprintBobAmountz = .005f;
+
+    private float defaultYPos = 0;
+    private float defaultXPos = 0;
+    private float defaultZPos = 0;
+    private float timerBob;
+
+
     public PhotonView photonView;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerCamera = controller.GetComponent<PlayerManager>().playerCamera;
+
+        defaultXPos = playerCamera.transform.localPosition.x;
+        defaultYPos = playerCamera.transform.localPosition.y;
+        defaultZPos = playerCamera.transform.localPosition.z;
+
+
     }
 
     // Update is called once per frame
@@ -44,6 +76,8 @@ public class PlayerMovement : MonoBehaviour
             
             return;
         }
+        //everything goes after this
+
         isGrounded = Physics.CheckSphere(groundCheck.position,groundDistance,groundLayerMask);
 
         if (isGrounded && velocity.y < 0)
@@ -56,6 +90,14 @@ public class PlayerMovement : MonoBehaviour
         {
             x = Input.GetAxis("Horizontal");
             z = Input.GetAxis("Vertical");
+        }
+        if (x != 0f || z!=0f)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
         }
 
         //physics idk
@@ -91,7 +133,33 @@ public class PlayerMovement : MonoBehaviour
             speed = walkSpeed;
         }
 
+        if (canHeadBob)
+        {
+            HandleHeadBob();
+        }
 
 
+    }
+
+    public void HandleHeadBob()
+    {
+        if (isGrounded && isMoving && !controller.gameObject.GetComponentInChildren<WeaponManager>().isAiming)
+        {
+            timerBob += Time.deltaTime * (isSprinting ? sprintBobSpeed : walkBobSpeed);
+
+            playerCamera.transform.localPosition = new Vector3(
+                defaultXPos + Mathf.Sin(timerBob) * (isSprinting ? sprintBobAmountx : walkBobAmountx),
+                defaultYPos + Mathf.Sin(timerBob) * (isSprinting ? sprintBobAmounty : walkBobAmounty),
+                playerCamera.transform.localPosition.z
+                );
+        }
+        else
+        {
+            playerCamera.transform.localPosition = new Vector3(
+                defaultXPos,
+                defaultYPos,
+                defaultZPos
+                );
+        }
     }
 }

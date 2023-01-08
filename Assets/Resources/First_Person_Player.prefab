@@ -5224,8 +5224,10 @@ MonoBehaviour:
   sprintSpeed: 8
   speed: 5
   isSprinting: 0
+  isMoving: 0
   x: 0
   z: 0
+  isAiming: 0
   gravity: -9.81
   isGrounded: 0
   groundCheck: {fileID: 467461956891013834}
@@ -5234,6 +5236,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   jumpHeight: 4
+  canHeadBob: 1
+  walkBobSpeed: 14
+  sprintBobSpeed: 18
+  coruchBobSpeed: 8
+  crouchBobAmount: 0.025
+  walkBobAmountx: 0.001
+  walkBobAmounty: 0.002
+  walkBobAmountz: 0.001
+  sprintBobAmountx: 0.003
+  sprintBobAmounty: 0.005
+  sprintBobAmountz: 0.005
   photonView: {fileID: 2950974734767020637}
 --- !u!114 &440410027189790666
 MonoBehaviour:

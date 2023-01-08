@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public int teamNumber;
 
 
+
     public PhotonView photonView;
 
 
