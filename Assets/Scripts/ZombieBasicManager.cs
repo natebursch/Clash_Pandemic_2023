@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
-public class ZombieBasicManager : MonoBehaviour
+public class ZombieBasicManager : MonoBehaviourPunCallbacks
 {
     public GameObject player;
     public Animator animator;

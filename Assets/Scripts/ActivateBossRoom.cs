@@ -22,6 +22,15 @@ public class ActivateBossRoom : MonoBehaviourPunCallbacks
             {
                 bossRoomManager.bossRoomDiscovered = true;
                 bossRoomManager.ShowRoundText(true);
+                if (bossRoomManager.players.Contains(other.gameObject))
+                {
+                    //bossRoomManager.players.Remove(other.gameObject);
+                }
+                else
+                {
+                    bossRoomManager.players.Add(other.gameObject);
+                }
+                
             }
         }
     }

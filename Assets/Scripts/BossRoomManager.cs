@@ -18,10 +18,19 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     public GameObject[] spawnPoints;
     public GameObject enemyPrefab;
 
-    public GameObject[] players;
+    public List<GameObject> players;
+    public GameObject[] allPlayers;
 
     public bool bossRoomDiscovered;
     public bool bossRoomComplete;
+
+    //PANDEMIC HAS BEEN STARTED? IDK
+    public string missionStartAnnouncement = "OUTBREAK STARTED";
+    public string missionStart_tooltip = "Uh Zombies Spawn everywhere so watch the fuck out";
+    public string missionEndAnnoucement = "PANDEMIC HAS BEEN CONTROLLED";
+    public string missionEnd_tooltip = "Stop the team from extracting, otherwise you cannot... maybe idk sounds kinda fun.";
+    public float missionAnnoucement_timer = 5f;
+
 
     private void Awake()
     {
@@ -43,14 +52,15 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
 
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
-        players = GameObject.FindGameObjectsWithTag("Player");
+        allPlayers = GameObject.FindGameObjectsWithTag("Player");
 
     }
     public void ShowRoundText(bool state)
     {
         foreach(GameObject player in players)
         {
-            player.GetComponent<GameManager>().roundText.gameObject.SetActive(true);
+            Debug.Log(player);
+            player.GetComponentInChildren<GameManager>().roundText.gameObject.SetActive(state);
         }
     }
     public void Update()
@@ -58,8 +68,24 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
         if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
         {
 
-            if (enemiesAlive == 0 && !bossRoomComplete)
+            if (enemiesAlive == 0 && !bossRoomComplete && bossRoomDiscovered)
             {
+                if (round == 0)
+                {
+                    Debug.Log("Show Mission Start");
+                    ShowMissionStatus(missionStartAnnouncement, missionStart_tooltip);
+                }
+                if (round == 10)
+                {
+                    bossRoomComplete = true;
+                    ShowRoundText(false);
+
+                    //mission complete
+                    ShowMissionStatus(missionEndAnnoucement, missionEnd_tooltip);
+                    //we want to start a timer for the people to extract
+                    return;
+                }
+
                 round++;
                 NextWave(round);
 
@@ -76,12 +102,8 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
             }
 
-            if (round == 10)
-            {
-                bossRoomComplete = true;
 
-                //we want to start a timer for the people to extract
-            }
+
 
 
 
@@ -90,11 +112,20 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
     private void DisplayNextRound(int round)
     {
+        //Debug.Log("Round" + round);
         foreach (GameObject player in players)
         {
-            player.GetComponent<GameManager>().roundText.text = "Round " + round;
+            player.GetComponentInChildren<GameManager>().roundText.text = "Round " + round;
         }
         
+    }
+    public void ShowMissionStatus(string annoucement, string tooltip)
+    {
+        foreach(GameObject player in allPlayers)
+        {
+            Debug.Log("turn player canvas on");
+            player.GetComponent<PlayerCanvasManager>().ShowMissionAnnouncement(annoucement, tooltip, missionAnnoucement_timer);
+        }
     }
 
     public void NextWave(int round)

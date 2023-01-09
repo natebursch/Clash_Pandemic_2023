@@ -8935,8 +8935,15 @@ MonoBehaviour:
   spawnPoints: []
   enemyPrefab: {fileID: 7237887403474013486, guid: e75ad5b2b3cd9f74a8288335fb2224f7, type: 3}
   players: []
+  allPlayers: []
   bossRoomDiscovered: 0
   bossRoomComplete: 0
+  missionStartAnnouncement: OUTBREAK STARTED
+  missionStart_tooltip: Uh Zombies Spawn everywhere so watch the fuck out
+  missionEndAnnoucement: PANDEMIC HAS BEEN CONTROLLED
+  missionEnd_tooltip: Stop the team from extracting, otherwise you cannot... maybe
+    idk sounds kinda fun.
+  missionAnnoucement_timer: 3
 --- !u!114 &240852499 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6428089858005810050, guid: caa06af274eba1f44aa2dafc0c27b1bd, type: 3}
@@ -12573,7 +12580,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 322302648}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 21.9, y: 1, z: 92.88}
+  m_LocalPosition: {x: 21.9, y: 1, z: -1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

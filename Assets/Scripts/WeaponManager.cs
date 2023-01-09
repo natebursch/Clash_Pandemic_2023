@@ -241,7 +241,7 @@ public class WeaponManager : MonoBehaviour
                 return;
             }
 
-            Debug.Log(hit.transform.gameObject.tag);
+            //Debug.Log(hit.transform.gameObject.tag);
 
             //if hit a zombie
             if (hit.transform.GetComponentInParent<EnemyManager>() != null)

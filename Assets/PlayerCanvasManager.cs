@@ -14,6 +14,14 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
 
     public PhotonView photonView;
 
+
+    public GameObject missionAnnoucement_Screen;
+    public TextMeshProUGUI missionAnnoucement_Text;
+    public TextMeshProUGUI missionAnnoucement_ToolTip;
+    public float show_missionAnnouncement_time = 3f;
+    public float missionAnnoucement_timer = 0;
+
+
     //esc key settings / options settings so on
     public GameObject pauseScreen;
     //senstivity
@@ -39,9 +47,11 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         mouseLook = GetComponentInChildren<MouseLook>();
         movement = GetComponent<PlayerMovement>();
         weapons = playerManger.weaponHolder;
+
         SetPlayerSettings();
 
         pauseScreen.SetActive(false);
+        missionAnnoucement_Screen.SetActive(false);
 
         
     }
@@ -133,6 +143,29 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         
     }
 
+
+
+    #region Mission Announcement Text
+    public void ShowMissionAnnouncement(string announcement,string tooltip, float timeToShow)
+    {
+        Debug.Log("HELLO???00");
+        missionAnnoucement_Screen.SetActive(true);
+        missionAnnoucement_Text.text = announcement;
+        missionAnnoucement_ToolTip.text = tooltip;
+
+        StartCoroutine(Hide_Annoucement_AfterDelay(timeToShow));
+    }
+    public IEnumerator Hide_Annoucement_AfterDelay(float timeToShow)
+    {
+        Debug.Log("Penis");
+        yield return new WaitForSeconds(timeToShow);
+        missionAnnoucement_Screen.SetActive(false);
+
+    }
+
+
+    #endregion
+
     #region Volume Settings
     public void ChangeMasterVolume(float value)
     {
@@ -166,7 +199,7 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         
     }
     #endregion
-    #region Sensitivity Option
+    #region Sensitivity Settings
     public void ChangeNormalSensitivity(float sens)
     {
         foreach (GameObject weapon in weapons)
