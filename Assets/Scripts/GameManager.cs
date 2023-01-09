@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             }
 
-            enemy.GetComponent<EnemyManager>().gameManager = gameObject.GetComponent<GameManager>();
+            enemy.GetComponent<EnemyManager>().gameManager = gameObject.GetComponent<BossRoomManager>();
 
             enemiesAlive++;
         }

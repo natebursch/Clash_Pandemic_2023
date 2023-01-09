@@ -18,7 +18,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     public GameObject[] spawnPoints;
     public GameObject enemyPrefab;
 
-    public TextMeshProUGUI roundText;
+    public GameObject[] players;
 
     public bool bossRoomDiscovered;
     public bool bossRoomComplete;
@@ -43,10 +43,16 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
 
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
-        roundText.gameObject.SetActive(false);
+        players = GameObject.FindGameObjectsWithTag("Player");
 
     }
-
+    public void ShowRoundText(bool state)
+    {
+        foreach(GameObject player in players)
+        {
+            player.GetComponent<GameManager>().roundText.gameObject.SetActive(true);
+        }
+    }
     public void Update()
     {
         if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
@@ -84,7 +90,11 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
     private void DisplayNextRound(int round)
     {
-        roundText.text = "Round " + round;
+        foreach (GameObject player in players)
+        {
+            player.GetComponent<GameManager>().roundText.text = "Round " + round;
+        }
+        
     }
 
     public void NextWave(int round)
@@ -104,7 +114,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
             }
 
-            enemy.GetComponent<EnemyManager>().gameManager = gameObject.GetComponent<GameManager>();
+            enemy.GetComponent<EnemyManager>().gameManager = gameObject.GetComponent<BossRoomManager>();
 
             enemiesAlive++;
         }

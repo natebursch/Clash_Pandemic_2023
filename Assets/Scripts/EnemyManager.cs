@@ -9,7 +9,7 @@ public class EnemyManager : MonoBehaviour
     public Animator animator;
     public float damage = 20f;
     public float health = 100f;
-    public GameManager gameManager;
+    public BossRoomManager gameManager;
 
     public float zombieAttackRange = 2;
     public bool playerInReach;

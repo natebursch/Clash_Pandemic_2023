@@ -8881,6 +8881,7 @@ GameObject:
   m_Component:
   - component: {fileID: 240246756}
   - component: {fileID: 240246757}
+  - component: {fileID: 240246758}
   m_Layer: 0
   m_Name: Room Manager
   m_TagString: Untagged
@@ -8917,6 +8918,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSpawnPoints: []
   teamNumber: 0
+--- !u!114 &240246758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 240246754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caca3f0a684e3d143a94d8d173398802, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemiesAlive: 0
+  round: 0
+  spawnPoints: []
+  enemyPrefab: {fileID: 7237887403474013486, guid: e75ad5b2b3cd9f74a8288335fb2224f7, type: 3}
+  players: []
+  bossRoomDiscovered: 0
+  bossRoomComplete: 0
 --- !u!114 &240852499 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6428089858005810050, guid: caa06af274eba1f44aa2dafc0c27b1bd, type: 3}
@@ -62742,6 +62762,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1693877159}
   - component: {fileID: 1693877158}
+  - component: {fileID: 1693877160}
   m_Layer: 2
   m_Name: RoomDiscover_Walls
   m_TagString: Untagged
@@ -62777,6 +62798,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1693877160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1693877157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7efc456bd4bad6e4f8b61f305fa6b16e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1698875548
 GameObject:
   m_ObjectHideFlags: 0
