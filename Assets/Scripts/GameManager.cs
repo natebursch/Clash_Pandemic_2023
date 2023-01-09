@@ -114,6 +114,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         endScreen.SetActive(true);
         //AudioListener.volume = 0;
+        //make player notmovable
+        //should probably also delete the player body idk we can just freeze it
+        gameObject.GetComponent<PlayerCanvasManager>().DisableCharacter(true);
+
 
         Cursor.lockState = CursorLockMode.None;
 
@@ -136,8 +140,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Time.timeScale = 1;
         }
-        SceneManager.LoadScene("MainMenu");
+        else
+        {
+            PhotonNetwork.LeaveRoom();
+            SceneManager.LoadScene("MainMenu");
+        }
+        
     }
+
 
     public void Pause()
     {

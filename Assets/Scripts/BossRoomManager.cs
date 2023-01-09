@@ -65,7 +65,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     }
     public void Update()
     {
-        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
+        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient)
         {
 
             if (enemiesAlive == 0 && !bossRoomComplete && bossRoomDiscovered)
@@ -156,7 +156,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
 
         Debug.Log("Player " + targetPlayer + " changed" + changedProps);
-        if (photonView.IsMine)
+        if (PhotonNetwork.InRoom)
         {
             if (changedProps["CurrentRound"] != null)
             {

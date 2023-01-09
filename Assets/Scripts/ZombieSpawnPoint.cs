@@ -10,7 +10,7 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
     public float spawnRange = 3;
     public float spawnDetectionRange = 25;
 
-    PhotonView photonView;
+    //public PhotonView photonView;
 
 
     public void Start()
@@ -21,38 +21,35 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
 
     public void OnTriggerEnter(Collider other)
     {
-        if (!PhotonNetwork.InRoom || photonView.IsMine && PhotonNetwork.IsMasterClient)
+        //if (!PhotonNetwork.InRoom || photonView.IsMine && PhotonNetwork.IsMasterClient)
+
+        //if the spawner has already spawned the zombie, don't spawn again.
+        if (!hasSpawned && other.gameObject.tag == "Player")
         {
+            //Debug.Log("Spawn Enemy cuz of" + other.gameObject);
 
-
-
-            //if the spawner has already spawned the zombie, don't spawn again.
-            if (!hasSpawned && other.gameObject.tag == "Player")
+            for (int i = 0; i < zombiesToSpawn; i++)
             {
-                //Debug.Log("Spawn Enemy cuz of" + other.gameObject);
+                //get a random location near the spawn point
+                Vector3 spawnPos = new Vector3(transform.position.x + Random.Range(-spawnRange, spawnRange), transform.position.y, transform.position.z + Random.Range(-spawnRange, spawnRange));
+                GameObject newEnemy;
 
-                for (int i = 0; i < zombiesToSpawn; i++)
+                if (PhotonNetwork.InRoom)
                 {
-                    //get a random location near the spawn point
-                    Vector3 spawnPos = new Vector3(transform.position.x + Random.Range(-spawnRange, spawnRange), transform.position.y, transform.position.z + Random.Range(-spawnRange, spawnRange));
-                    GameObject newEnemy;
-
-                    if (PhotonNetwork.InRoom)
-                    {
-                        newEnemy = PhotonNetwork.Instantiate("ZombieBasic", spawnPos, Quaternion.identity);
-                    }
-                    else
-                    {
-                        newEnemy = Instantiate(Resources.Load("ZombieBasic"), spawnPos, Quaternion.identity) as GameObject;
-
-                    }
-
-                    hasSpawned = true;
+                    newEnemy = PhotonNetwork.Instantiate("ZombieBasic", spawnPos, Quaternion.identity);
+                }
+                else
+                {
+                    newEnemy = Instantiate(Resources.Load("ZombieBasic"), spawnPos, Quaternion.identity) as GameObject;
 
                 }
 
+                hasSpawned = true;
+
             }
+
         }
+        
         
 
 

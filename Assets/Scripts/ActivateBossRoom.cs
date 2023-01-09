@@ -9,14 +9,14 @@ public class ActivateBossRoom : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
+        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient)
         {
             bossRoomManager = GameObject.FindObjectOfType<BossRoomManager>();
         }
     }
     public void OnTriggerEnter(Collider other)
     {
-        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
+        if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient)
         {
             if (other.gameObject.tag == "Player")
             {

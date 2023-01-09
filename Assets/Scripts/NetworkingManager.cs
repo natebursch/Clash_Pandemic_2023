@@ -28,7 +28,15 @@ public class NetworkingManager : MonoBehaviourPunCallbacks
         //connect to the netwrok
         Debug.Log("Connecting to Server");
         //settings are based in resources
-        PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        else
+        {
+            OnConnectedToMaster();
+        }
+        
 
     }
 

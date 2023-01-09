@@ -251,7 +251,18 @@ public class WeaponManager : MonoBehaviour
                 //hit.rigidbody.isKinematic = true;
                 hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
 
-                GameObject hitObject = Instantiate(hitBloodParticles, hit.point, Quaternion.LookRotation(hit.normal));
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("BloodHitEffect", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("BloodHitEffect"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
+
                 Destroy(hitObject, .5f);
 
                 hitObject.GetComponent<ParticleSystem>().Play();
@@ -297,7 +308,17 @@ public class WeaponManager : MonoBehaviour
                 //hit.rigidbody.isKinematic = true;
                 hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
 
-                GameObject hitObject = Instantiate(hitBloodParticles, hit.point, Quaternion.LookRotation(hit.normal));
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("BloodHitEffect", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("BloodHitEffect"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
                 Destroy(hitObject, .5f);
 
                 hitObject.GetComponent<ParticleSystem>().Play();
@@ -320,7 +341,17 @@ public class WeaponManager : MonoBehaviour
 
             else
             {
-                GameObject hitObject = Instantiate(hitParticles, hit.point, Quaternion.LookRotation(hit.normal));
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("HitParticles", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("HitParticles"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
                 Destroy(hitObject, .5f);
 
                 hitObject.GetComponent<ParticleSystem>().Play();
