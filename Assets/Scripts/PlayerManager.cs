@@ -59,6 +59,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         //make sure only primary weapon is showing
         WeaponSwitch(0, 0);
         activeWeapon = 0;
+
+
     }
 
     // Update is called once per frame

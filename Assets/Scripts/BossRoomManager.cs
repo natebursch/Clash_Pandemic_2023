@@ -52,7 +52,11 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
 
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
-        allPlayers = GameObject.FindGameObjectsWithTag("Player");
+
+        // not getting the other connected players :OOOOOO
+        //only gets first connected player
+        //make an RPC that is called to change this value...
+        //allPlayers = GameObject.FindGameObjectsWithTag("Player");
 
     }
     public void ShowRoundText(bool state)
@@ -70,8 +74,10 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
             if (enemiesAlive == 0 && !bossRoomComplete && bossRoomDiscovered)
             {
+
                 if (round == 0)
                 {
+                    allPlayers = GameObject.FindGameObjectsWithTag("Player");
                     Debug.Log("Show Mission Start");
                     ShowMissionStatus(missionStartAnnouncement, missionStart_tooltip);
                 }
