@@ -45,7 +45,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 45
+  m_Radius: 25
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6639749710998706199
 MonoBehaviour:
@@ -62,7 +62,7 @@ MonoBehaviour:
   hasSpawned: 0
   zombiesToSpawn: 5
   spawnRange: 4
-  spawnDetectionRange: 45
+  spawnDetectionRange: 25
   photonView: {fileID: 6639749709661060528}
 --- !u!114 &6639749709661060528
 MonoBehaviour:

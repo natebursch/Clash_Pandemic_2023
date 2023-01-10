@@ -2339,12 +2339,12 @@ MonoBehaviour:
   aimSensitivity: 300
   normalSensitivity: 600
   crosshair: {fileID: 3751258995860045875}
-  canFullAuto: 1
+  canFullAuto: 0
   fireRate: 0.1
   fireRateTimer: 0
   bulletForce: 2000
-  currentAmmo: 100
-  magazineSize: 100
+  currentAmmo: 30
+  magazineSize: 30
   reloadTime: 1
   isReloading: 0
   reserveAmmo: 10000
@@ -2367,7 +2367,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8295,7 +8295,7 @@ MonoBehaviour:
   normalSensitivity: 600
   crosshair: {fileID: 3751258995860045875}
   canFullAuto: 0
-  fireRate: 0.2
+  fireRate: 0.1
   fireRateTimer: 0
   bulletForce: 1000
   currentAmmo: 10
@@ -8322,7 +8322,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
