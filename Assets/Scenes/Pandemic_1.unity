@@ -8204,6 +8204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 221471805}
   - component: {fileID: 221471809}
+  - component: {fileID: 221471810}
   m_Layer: 0
   m_Name: SpawnPoint (2)
   m_TagString: PlayerSpawner
@@ -8239,7 +8240,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 221471810}
+--- !u!114 &221471810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 221471804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 25
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &225567686
 GameObject:
   m_ObjectHideFlags: 0
@@ -13811,6 +13834,7 @@ GameObject:
   m_Component:
   - component: {fileID: 379946812}
   - component: {fileID: 379946816}
+  - component: {fileID: 379946817}
   m_Layer: 0
   m_Name: SpawnPoint (5)
   m_TagString: PlayerSpawner
@@ -13846,7 +13870,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 379946817}
+--- !u!114 &379946817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 379946811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 23
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &384224428
 GameObject:
   m_ObjectHideFlags: 0
@@ -20899,6 +20945,7 @@ GameObject:
   m_Component:
   - component: {fileID: 600931825}
   - component: {fileID: 600931829}
+  - component: {fileID: 600931830}
   m_Layer: 0
   m_Name: SpawnPoint (8)
   m_TagString: PlayerSpawner
@@ -20934,7 +20981,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 600931830}
+--- !u!114 &600931830
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600931824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 19
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &603706482
 GameObject:
   m_ObjectHideFlags: 0
@@ -26747,6 +26816,7 @@ GameObject:
   m_Component:
   - component: {fileID: 715897730}
   - component: {fileID: 715897734}
+  - component: {fileID: 715897735}
   m_Layer: 0
   m_Name: SpawnPoint (9)
   m_TagString: PlayerSpawner
@@ -26782,7 +26852,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 715897735}
+--- !u!114 &715897735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715897729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 22
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &717374773
 GameObject:
   m_ObjectHideFlags: 0
@@ -39267,6 +39359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1051940579}
   - component: {fileID: 1051940583}
+  - component: {fileID: 1051940584}
   m_Layer: 0
   m_Name: SpawnPoint (4)
   m_TagString: PlayerSpawner
@@ -39302,7 +39395,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 1051940584}
+--- !u!114 &1051940584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051940578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 18
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1051966332
 GameObject:
   m_ObjectHideFlags: 0
@@ -43233,6 +43348,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1176766451}
   - component: {fileID: 1176766455}
+  - component: {fileID: 1176766456}
   m_Layer: 0
   m_Name: SpawnPoint (3)
   m_TagString: PlayerSpawner
@@ -43268,7 +43384,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 1176766456}
+--- !u!114 &1176766456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176766450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 24
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1179562687
 GameObject:
   m_ObjectHideFlags: 0
@@ -59287,6 +59425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1583665520}
   - component: {fileID: 1583665524}
+  - component: {fileID: 1583665525}
   m_Layer: 0
   m_Name: SpawnPoint (7)
   m_TagString: PlayerSpawner
@@ -59322,7 +59461,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 1583665525}
+--- !u!114 &1583665525
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1583665519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 21
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1583718905
 GameObject:
   m_ObjectHideFlags: 0
@@ -60769,6 +60930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1629835054}
   - component: {fileID: 1629835058}
+  - component: {fileID: 1629835059}
   m_Layer: 0
   m_Name: SpawnPoint (6)
   m_TagString: PlayerSpawner
@@ -60804,7 +60966,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasSpawned: 0
-  pv: {fileID: 0}
+  pv: {fileID: 1629835059}
+--- !u!114 &1629835059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629835053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 20
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1001 &1629866074
 PrefabInstance:
   m_ObjectHideFlags: 0
