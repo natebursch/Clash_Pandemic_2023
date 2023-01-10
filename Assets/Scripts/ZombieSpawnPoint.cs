@@ -26,7 +26,7 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
         //if the spawner has already spawned the zombie, don't spawn again.
         if (!hasSpawned && other.gameObject.tag == "Player")
         {
-            //Debug.Log("Spawn Enemy cuz of" + other.gameObject);
+            Debug.Log("Spawn Enemy cuz of" + other.gameObject);
 
             for (int i = 0; i < zombiesToSpawn; i++)
             {
@@ -36,7 +36,7 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
 
                 if (PhotonNetwork.InRoom)
                 {
-                    newEnemy = PhotonNetwork.InstantiateRoomObject("ZombieBasic", spawnPos, Quaternion.identity);
+                    photonView.RPC("RPC_CreateBasicZombie_OnMaster", RpcTarget.MasterClient, spawnPos);
                 }
                 else
                 {
@@ -55,6 +55,11 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
 
         }
 
+    }
+    [PunRPC]
+    void RPC_CreateBasicZombie_OnMaster(Vector3 spawnPos)
+    {
+        PhotonNetwork.InstantiateRoomObject("ZombieBasic", spawnPos, Quaternion.identity);
     }
 
     [PunRPC]

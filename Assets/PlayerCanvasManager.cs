@@ -145,8 +145,22 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
 
 
 
+    #region Mission Round Text
+    [PunRPC]
+    public void ShowMissionRound_Text(int round)
+    {
+        gameObject.GetComponentInChildren<GameManager>().roundText.text = "Round " + round;
+    }
+    [PunRPC]
+    public void ShowRound_Text(bool state)
+    {
+        gameObject.GetComponentInChildren<GameManager>().roundText.gameObject.SetActive(state);
+    }
+    #endregion
+
     #region Mission Announcement Text
-    public void ShowMissionAnnouncement(string announcement,string tooltip, float timeToShow)
+    [PunRPC]
+    public void ShowMissionAnnouncementRPC(string announcement,string tooltip, float timeToShow)
     {
         Debug.Log("HELLO???00");
         missionAnnoucement_Screen.SetActive(true);

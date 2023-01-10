@@ -31,6 +31,9 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     public string missionEnd_tooltip = "Stop the team from extracting, otherwise you cannot... maybe idk sounds kinda fun.";
     public float missionAnnoucement_timer = 5f;
 
+    // stuff that happens outside the bossroom.
+    public int zombiesToSpawnPerSpawner = 15;
+    public GameObject[] spawners;
 
     private void Awake()
     {
@@ -63,9 +66,12 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
         foreach(GameObject player in players)
         {
-            Debug.Log(player);
-            player.GetComponentInChildren<GameManager>().roundText.gameObject.SetActive(state);
-        }
+            if (player != null)
+            {
+                player.GetComponentInChildren<PlayerCanvasManager>().photonView.RPC("ShowRound_Text", RpcTarget.All, state);
+            }
+            
+        }  
     }
     public void Update()
     {
@@ -80,6 +86,13 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
                     allPlayers = GameObject.FindGameObjectsWithTag("Player");
                     Debug.Log("Show Mission Start");
                     ShowMissionStatus(missionStartAnnouncement, missionStart_tooltip);
+
+                    // spawn a ton of zombies all over the place
+                    // amount per spawn point
+                    // list of places to spawn
+                    // an rpc that tells the master client to spawn all of the zombies
+                    StartOutside_Events();
+
                 }
                 if (round == 10)
                 {
@@ -119,9 +132,14 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     private void DisplayNextRound(int round)
     {
         //Debug.Log("Round" + round);
+
         foreach (GameObject player in players)
         {
-            player.GetComponentInChildren<GameManager>().roundText.text = "Round " + round;
+            if (player != null)
+            {
+                player.GetComponentInChildren<PlayerCanvasManager>().photonView.RPC("ShowMissionRound_Text", RpcTarget.All, round);
+            }
+            
         }
         
     }
@@ -130,7 +148,11 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
         foreach(GameObject player in allPlayers)
         {
             Debug.Log("turn player canvas on");
-            player.GetComponent<PlayerCanvasManager>().ShowMissionAnnouncement(annoucement, tooltip, missionAnnoucement_timer);
+            if (player!=null)
+            {
+                player.GetComponent<PlayerCanvasManager>().photonView.RPC("ShowMissionAnnouncementRPC", RpcTarget.All, annoucement, tooltip, missionAnnoucement_timer);
+
+            }
         }
     }
 
@@ -171,6 +193,23 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
         }
 
     }
+
+    #region outside factors
+
+    public void StartOutside_Events()
+    {
+        photonView.RPC("RPC_StartOutside_Events", RpcTarget.MasterClient, zombiesToSpawnPerSpawner);
+    }
+
+    [PunRPC]
+    public void RPC_StartOutside_Events(int amount)
+    {
+        foreach (GameObject spawner in spawners)
+        {
+            spawner.GetComponent<BossRoom_OutsideEvent_Spawner>().Activate_OutsideSpawn_Event(amount);
+        }
+    }
+    #endregion
 }
 
 
