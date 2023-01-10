@@ -2423,7 +2423,7 @@ MonoBehaviour:
   worthPoints: 20
   players: []
   photonView: {fileID: 4856272754872058881}
-  attackDistance: 10
+  attackDistance: 25
   randomDistance: 5
   isClose: 0
   runningSpeed: 5.5

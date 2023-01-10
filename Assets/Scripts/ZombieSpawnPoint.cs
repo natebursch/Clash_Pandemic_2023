@@ -10,7 +10,7 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
     public float spawnRange = 3;
     public float spawnDetectionRange = 25;
 
-    //public PhotonView photonView;
+    public PhotonView photonView;
 
 
     public void Start()
@@ -36,7 +36,7 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
 
                 if (PhotonNetwork.InRoom)
                 {
-                    newEnemy = PhotonNetwork.Instantiate("ZombieBasic", spawnPos, Quaternion.identity);
+                    newEnemy = PhotonNetwork.InstantiateRoomObject("ZombieBasic", spawnPos, Quaternion.identity);
                 }
                 else
                 {
@@ -45,17 +45,22 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
                 }
 
                 hasSpawned = true;
+                if (PhotonNetwork.InRoom)
+                {
+                    photonView.RPC("SyncVar", RpcTarget.AllBuffered, hasSpawned);
+                }
+
 
             }
 
         }
-        
-        
 
+    }
 
-
-
-
+    [PunRPC]
+    public void SyncVar(bool spawned)
+    {
+        hasSpawned = spawned;
     }
 
 }

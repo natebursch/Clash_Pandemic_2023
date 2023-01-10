@@ -265,7 +265,7 @@ public class WeaponManager : MonoBehaviour
 
                 Destroy(hitObject, .5f);
 
-                hitObject.GetComponent<ParticleSystem>().Play();
+                //hitObject.GetComponent<ParticleSystem>().Play();
                 //hitObject.transform.position = hit.transform.position;
 
                 //enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
@@ -286,19 +286,37 @@ public class WeaponManager : MonoBehaviour
             else if (hit.transform.GetComponentInParent<PlayerManager>()!=null)
             {
                 PlayerManager hitPlayerManger = hit.transform.GetComponentInParent<PlayerManager>();
+                Debug.Log("The player that was hit: Team " + hitPlayerManger.teamNumber);
+                Debug.Log("The player that shot: Team " + gameObject.GetComponentInParent<PlayerManager>().teamNumber);
                 if (hitPlayerManger.teamNumber == gameObject.GetComponentInParent<PlayerManager>().teamNumber)
                 {
                     //same team
                     Debug.Log("Do reduced damage");
                     //check if body or head but i dont have it set up atm
-                    hitPlayerManger.Hit(bulletBodyDamage / friendlyFireReduction);
+                    hitPlayerManger.Hit(Mathf.Floor(bulletBodyDamage / friendlyFireReduction));
 
                 }
                 else
                 {
+                    Debug.Log("Do Normal Damage");
                     //also need headshots here but dont have that yet
                     hitPlayerManger.Hit(bulletBodyDamage);
                 }
+                //effects
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("BloodHitEffect", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("BloodHitEffect"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
+
+                Destroy(hitObject, .5f);
+
             }
             //if hit basic zombie.... LOL i just need to make some inheritence go on, but we can do that later........ maybe
             else if(hit.transform.GetComponentInParent<ZombieBasicManager>()!= null)

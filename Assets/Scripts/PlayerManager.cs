@@ -37,8 +37,17 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
 
     // Start is called before the first frame update
+    private void Awake()
+    {
+        teamNumber = FindObjectOfType<Pandemic_RoomManager>().teamNumber;
+    }
     void Start()
     {
+        if (PhotonNetwork.InRoom && !photonView.IsMine)
+        {
+            playerCamera.gameObject.SetActive(false);
+        }
+
         playerCameraOriginalRotation = playerCamera.transform.localRotation;
 
         hurtPanel.alpha = 0;
@@ -57,7 +66,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.InRoom && !photonView.IsMine)
         {
-            playerCamera.gameObject.SetActive(false);
+            //playerCamera.gameObject.SetActive(false); //MOVED TO START METHOD
             return;
         }
         if (hurtPanel.alpha > 0)
@@ -122,7 +131,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         if (health <= 0)
         {
             health = 0;
+            //make player notmovable
+            //should probably also delete the player body idk we can just freeze it
+            //gameObject.GetComponent<PlayerCanvasManager>().DisableCharacter(true);
+            
+
             gameManager.EndGame();
+            gameObject.GetComponentInChildren<GameManager>().MainMenuButtonPressed();
         }
 
         if (points > 0)
@@ -211,4 +226,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         weaponHolder[activeWeapon].GetComponent<WeaponManager>().ShootVFX(viewID);
     }
+
+
 }

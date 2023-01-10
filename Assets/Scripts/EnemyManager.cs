@@ -274,6 +274,7 @@ public class EnemyManager : MonoBehaviour
        
     }
 
+
     [PunRPC]
     public void TakeDamage(float damage,int shooterID, int viewID)
     {

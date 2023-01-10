@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 public class Pandemic_RoomManager : MonoBehaviourPunCallbacks
 {
@@ -15,6 +17,7 @@ public class Pandemic_RoomManager : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+
         // delete if a new instance is created
         if (Instance)
         {
@@ -47,18 +50,44 @@ public class Pandemic_RoomManager : MonoBehaviourPunCallbacks
 
 
         //default spawsn pos
+        if (SceneManager.GetActiveScene().name == "MainMenu")
+        {
+            return;
+        }
+
         playerSpawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawner");
         Vector3 spawnPos = FindSpawnPoint().transform.position;
+
 
         //check to make sure online
         if (PhotonNetwork.InRoom)
         {
+
+
             GameObject player = PhotonNetwork.Instantiate("First_Person_Player", spawnPos, Quaternion.identity);
+
+            if (PhotonNetwork.CurrentRoom.CustomProperties["CurrentTeamNumber"] != null)
+            {
+                teamNumber = (int)PhotonNetwork.CurrentRoom.CustomProperties["CurrentTeamNumber"];
+            }
+            else
+            {
+                teamNumber = 0;
+            }
+            Debug.Log(teamNumber);
+
             player.gameObject.GetComponent<PlayerManager>().teamNumber = teamNumber;
+
+            Hashtable hash = new Hashtable();
             teamNumber++;
+            hash.Add("CurrentTeamNumber", teamNumber);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(hash);
+
+
         }
         else
         {
+
             Object player = Instantiate(Resources.Load("First_Person_Player"), spawnPos, Quaternion.identity);
             //Object player = Instantiate(Resources.Load("Sci_fi_Character"), spawnPos, Quaternion.identity);
 
@@ -90,4 +119,17 @@ public class Pandemic_RoomManager : MonoBehaviourPunCallbacks
         return playerSpawnPoint;
 
     }
+
+    public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
+    {
+
+        if (propertiesThatChanged["CurrentTeamNumber"] != null)
+        {
+            teamNumber = (int)propertiesThatChanged["CurrentTeamNumber"];
+            Debug.Log("teamNumber" + teamNumber);
+        }
+    }
+    
+
+
 }

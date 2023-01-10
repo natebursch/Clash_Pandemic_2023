@@ -94,9 +94,9 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     public void SetPlayerSettings()
     {
 
-        Debug.Log(PlayerPrefs.GetFloat("Normal_Sensitivity").ToString());
-        Debug.Log(PlayerPrefs.GetFloat("Aim_Sensitivity").ToString());
-        Debug.Log(PlayerPrefs.GetFloat("Master_Volume").ToString());
+        //Debug.Log(PlayerPrefs.GetFloat("Normal_Sensitivity").ToString());
+        //Debug.Log(PlayerPrefs.GetFloat("Aim_Sensitivity").ToString());
+        //Debug.Log(PlayerPrefs.GetFloat("Master_Volume").ToString());
 
         // Senstivity
 
@@ -113,9 +113,9 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         masterVolume_slider.value = PlayerPrefs.GetFloat("Master_Volume");
         masterVolume_InputField.text = PlayerPrefs.GetFloat("Master_Volume").ToString();
 
-        Debug.Log(PlayerPrefs.GetFloat("Normal_Sensitivity").ToString());
-        Debug.Log(PlayerPrefs.GetFloat("Aim_Sensitivity").ToString());
-        Debug.Log(PlayerPrefs.GetFloat("Master_Volume").ToString());
+        //Debug.Log(PlayerPrefs.GetFloat("Normal_Sensitivity").ToString());
+        //Debug.Log(PlayerPrefs.GetFloat("Aim_Sensitivity").ToString());
+        //Debug.Log(PlayerPrefs.GetFloat("Master_Volume").ToString());
 
     }
 

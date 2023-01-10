@@ -14,12 +14,12 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         // delete if a new instance is created
-        if (Instance)
+        if (Instance || SceneManager.GetActiveScene().name =="MainMenu")
         {
             Destroy(Instance);
             return;
         }
-
+        Debug.Log(SceneManager.GetActiveScene().name);
         //dont destroy the first room instance
         // and make this instance the singleton
         Instance = this;
@@ -42,6 +42,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+
         //default spawsn pos
         Vector3 spawnPos = new Vector3(Random.Range(-3, 3), 2, Random.Range(-3, 3));
 
