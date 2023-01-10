@@ -56,6 +56,7 @@ public class Pandemic_RoomManager : MonoBehaviourPunCallbacks
         }
 
         playerSpawnPoints = GameObject.FindGameObjectsWithTag("PlayerSpawner");
+
         Vector3 spawnPos = FindSpawnPoint().transform.position;
 
 
@@ -98,26 +99,22 @@ public class Pandemic_RoomManager : MonoBehaviourPunCallbacks
     public GameObject FindSpawnPoint()
     {
         GameObject playerSpawnPoint = validPoint();
-        playerSpawnPoint.GetComponent<PlayerSpawnPoint>().hasSpawned = true;
+        playerSpawnPoint.GetComponent<PlayerSpawnPoint>().Spawned(true);
+
 
         return playerSpawnPoint;
     }
 
     public GameObject validPoint()
     {
-        GameObject playerSpawnPoint;
-
         int spawnPoint = Random.Range(0, playerSpawnPoints.Length);
+        if (playerSpawnPoints[spawnPoint].gameObject.GetComponent<PlayerSpawnPoint>().hasSpawned)
+        {
+            Debug.Log(playerSpawnPoints[spawnPoint].gameObject.GetComponent<PlayerSpawnPoint>().hasSpawned);
+            GameObject spawn = playerSpawnPoints[spawnPoint] = validPoint();
+        }
 
-        playerSpawnPoint = playerSpawnPoints[spawnPoint];
-
-        if (playerSpawnPoint.GetComponent<PlayerSpawnPoint>().hasSpawned == true)
-            {
-                playerSpawnPoint = validPoint();
-            }
-
-        return playerSpawnPoint;
-
+        return playerSpawnPoints[spawnPoint];
     }
 
     public override void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)
