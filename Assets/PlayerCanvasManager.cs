@@ -36,6 +36,9 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     public Slider masterVolume_slider;
     public TMP_InputField masterVolume_InputField;
 
+    //hitmarker
+    public CanvasGroup hitmarker;
+
 
     public void Start()
     {
@@ -53,6 +56,10 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         pauseScreen.SetActive(false);
         missionAnnoucement_Screen.SetActive(false);
 
+
+        //make sure hitmarker is on
+        hitmarker.gameObject.SetActive(true);
+        hitmarker.alpha = 0;
         
     }
     public void Update()
@@ -83,6 +90,12 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
             }
 
         }
+
+        if (hitmarker.alpha > 0)
+        {
+            hitmarker.alpha -= Time.deltaTime;
+        }
+
     }
     private void OnApplicationQuit()
     {
@@ -144,6 +157,12 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     }
 
 
+    #region HitMarker
+    public void ShowHitMarker()
+    {
+        hitmarker.alpha = 1;
+    }
+    #endregion
 
     #region Mission Round Text
     [PunRPC]

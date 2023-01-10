@@ -18,6 +18,7 @@ public class ActivateBossRoom : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient)
         {
+
             if (other.gameObject.tag == "Player" && !bossRoomManager.bossRoomComplete)
             {
                 bossRoomManager.bossRoomDiscovered = true;

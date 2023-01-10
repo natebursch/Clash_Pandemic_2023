@@ -59,6 +59,8 @@ public class WeaponManager : MonoBehaviour
     public float normalFOV = 60f;
     public float aimSpeed = .1f;
 
+  
+
     //Start is called before the first frame update
     private void OnEnable()
     {
@@ -281,6 +283,21 @@ public class WeaponManager : MonoBehaviour
                 //{
                 //    playerManager.UpdatePoints(enemy.worthPoints);
                 //}
+
+                //playhitmarker
+                if (photonView.IsMine)
+                {
+                    if (hit.transform.gameObject.tag=="Head")
+                    {
+                        playerManager.HitMarker_FX(true);
+                    }
+                    else
+                    {
+                        playerManager.HitMarker_FX(false);
+                    }
+                    
+                }
+
             }
             //if hit player
             else if (hit.transform.GetComponentInParent<PlayerManager>()!=null)
@@ -301,6 +318,18 @@ public class WeaponManager : MonoBehaviour
                     Debug.Log("Do Normal Damage");
                     //also need headshots here but dont have that yet
                     hitPlayerManger.Hit(bulletBodyDamage);
+                    if (photonView.IsMine)
+                    {
+                        if (hit.transform.gameObject.tag == "Head")
+                        {
+                            playerManager.HitMarker_FX(true);
+                        }
+                        else
+                        {
+                            playerManager.HitMarker_FX(false);
+                        }
+
+                    }
                 }
                 //effects
                 GameObject hitObject;
@@ -324,6 +353,19 @@ public class WeaponManager : MonoBehaviour
                 ZombieBasicManager enemy = hit.transform.GetComponentInParent<ZombieBasicManager>();
                 //add force
                 //hit.rigidbody.isKinematic = true;
+                if (photonView.IsMine)
+                {
+                    if (hit.transform.gameObject.tag == "Head")
+                    {
+                        playerManager.HitMarker_FX(true);
+                    }
+                    else
+                    {
+                        playerManager.HitMarker_FX(false);
+                    }
+
+                }
+
                 hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
 
                 GameObject hitObject;

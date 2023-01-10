@@ -35,6 +35,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     public PhotonView photonView;
 
+    public AudioSource playerAudioSource;
+
+    //hitmarker stufff
+    public PlayerCanvasManager playerCanvasManager;
+    public AudioClip body_hitmarkerSound;
+    public AudioClip head_hitmarkerSound;
+
 
     // Start is called before the first frame update
     private void Awake()
@@ -210,6 +217,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         else
         {
             PlayerRPCHit(damage,photonView.ViewID);
+        }
+
+    }
+    public void HitMarker_FX(bool headShot)
+    {
+        playerCanvasManager.ShowHitMarker();
+        if (headShot)
+        {
+            playerAudioSource.PlayOneShot(head_hitmarkerSound);
+        }
+        else
+        {
+            playerAudioSource.PlayOneShot(body_hitmarkerSound);
+
         }
 
     }
