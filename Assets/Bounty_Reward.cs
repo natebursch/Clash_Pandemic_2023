@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Bounty_Reward : MonoBehaviour
 {
@@ -9,11 +10,14 @@ public class Bounty_Reward : MonoBehaviour
 
     public PlayerManager playerManager;
 
+
     public bool PlayerInReach = false;
 
     public string canvas_interactable_text = "Press E to pickup";
 
     Collider player;
+
+    public PhotonView pv;
 
     // Start is called before the first frame update
     void Start()
@@ -33,7 +37,9 @@ public class Bounty_Reward : MonoBehaviour
             player.gameObject.GetComponent<PlayerCanvasManager>().Hide_InteractbleText();
             PlayerInReach = false;
             //destroy bounty
-            Destroy(gameObject);
+            ///need to send an rpc here
+            Destroy_BountyReward();
+
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -53,6 +59,23 @@ public class Bounty_Reward : MonoBehaviour
             other.gameObject.GetComponent<PlayerCanvasManager>().Hide_InteractbleText();
             PlayerInReach = false;
         }
+    }
+    
+    public void Destroy_BountyReward()
+    {
+        if (PhotonNetwork.InRoom)
+        {
+            pv.RPC("RPC_Destroy_BountyReward",RpcTarget.All);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    [PunRPC]
+    public void RPC_Destroy_BountyReward()
+    {
+        Destroy(gameObject);
     }
 
 

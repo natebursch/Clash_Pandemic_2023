@@ -107,8 +107,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4694181640396070918}
   - component: {fileID: 3693759933126924833}
-  - component: {fileID: 3146857683486040756}
   - component: {fileID: 5475016025554991517}
+  - component: {fileID: 3146857683486040756}
   m_Layer: 2
   m_Name: Boss Reward
   m_TagString: Untagged
@@ -147,6 +147,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.5, y: 5, z: 2.5}
   m_Center: {x: 0, y: 2.5, z: 0}
+--- !u!114 &5475016025554991517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4694181640396070919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 807c077e05ccc984abfb5f669716b2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossRoomManager: {fileID: 0}
+  playerManager: {fileID: 0}
+  PlayerInReach: 0
+  canvas_interactable_text: Press E to pickup
+  pv: {fileID: 3146857683486040756}
 --- !u!114 &3146857683486040756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,22 +186,6 @@ MonoBehaviour:
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &5475016025554991517
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4694181640396070919}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 807c077e05ccc984abfb5f669716b2eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bossRoomManager: {fileID: 0}
-  playerManager: {fileID: 0}
-  PlayerInReach: 0
-  canvas_interactable_text: Press E to pickup
 --- !u!1 &4694181640676555336
 GameObject:
   m_ObjectHideFlags: 0

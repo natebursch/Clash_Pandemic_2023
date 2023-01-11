@@ -46,6 +46,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public GameObject bounty_reward;
     public bool hasBounty;
 
+    public bool inExtraction;
+
 
     // Start is called before the first frame update
     private void Awake()

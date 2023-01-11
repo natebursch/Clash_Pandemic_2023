@@ -50,6 +50,7 @@ MonoBehaviour:
   - RPC_StartOutside_Events
   - RPC_SpawnBounty
   - RPC_ShowHat
+  - RPC_Destroy_BountyReward
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
