@@ -49,6 +49,7 @@ MonoBehaviour:
   - ShowRound_Text
   - RPC_StartOutside_Events
   - RPC_SpawnBounty
+  - RPC_ShowHat
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
