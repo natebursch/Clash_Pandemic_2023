@@ -28,6 +28,10 @@ public class Extraction_Point : MonoBehaviour
 
     private void Update()
     {
+        if (enemyInZone)
+        {
+            timer = 0;
+        }
         if (playerInZone && !enemyInZone)
         {
             timer = Time.deltaTime;
