@@ -6,6 +6,7 @@ using Photon.Pun;
 public class ActivateBossRoom : MonoBehaviourPunCallbacks
 {
     BossRoomManager bossRoomManager;
+    bool isColliding = false;
 
     private void Start()
     {
@@ -16,24 +17,34 @@ public class ActivateBossRoom : MonoBehaviourPunCallbacks
     }
     public void OnTriggerEnter(Collider other)
     {
+        //have a feeling if two different people enter now that they wont be detected but it is what it is....
+        //It should still work since the rpc is happening locally.
+        if (isColliding) return;
+        isColliding = true;
         if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient)
         {
 
             if (other.gameObject.tag == "Player" && !bossRoomManager.bossRoomComplete)
             {
                 bossRoomManager.bossRoomDiscovered = true;
-                bossRoomManager.ShowRoundText(true);
+                
                 if (bossRoomManager.players.Contains(other.gameObject))
                 {
-                    //bossRoomManager.players.Remove(other.gameObject);
+                    bossRoomManager.players.Remove(other.gameObject);
                 }
                 else
                 {
                     bossRoomManager.players.Add(other.gameObject);
                 }
-                
+
+                bossRoomManager.ShowRoundText(true);
+
             }
         }
+    }
+    public void OnTriggerExit(Collider other)
+    {
+        isColliding=false;
     }
 
 }

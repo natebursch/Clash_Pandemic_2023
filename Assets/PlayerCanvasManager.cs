@@ -39,6 +39,9 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     //hitmarker
     public CanvasGroup hitmarker;
 
+    //Interactble Text
+    public TextMeshProUGUI interactble_text;
+
 
     public void Start()
     {
@@ -55,6 +58,7 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
 
         pauseScreen.SetActive(false);
         missionAnnoucement_Screen.SetActive(false);
+        interactble_text.enabled = false;
 
 
         //make sure hitmarker is on
@@ -156,7 +160,19 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         
     }
 
+    #region Interactble Text
+    public void Show_InteractbleText(string interactable_msg)
+    {
+        interactble_text.enabled = true;
 
+        interactble_text.text = interactable_msg;
+    }
+    public void Hide_InteractbleText()
+    {
+        interactble_text.enabled = false;
+    }
+
+    #endregion
     #region HitMarker
     public void ShowHitMarker()
     {

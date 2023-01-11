@@ -35,6 +35,13 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     public int zombiesToSpawnPerSpawner = 15;
     public GameObject[] spawners;
 
+    //reward
+    public GameObject Bounty_Reward;
+    public GameObject spawnedBounty;
+    public Transform BountyReward_SpawnLocation;
+    public string bountyHasBeenGrabbed_Announcement = "BOUNTY HAS BEEN PICKED UP";
+    public string bountyHasBeenGrabbed_tooltip = "Kill the player with the Cowboy Hat";
+
     private void Awake()
     {
         // delete if a new instance is created
@@ -94,7 +101,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
                     StartOutside_Events();
 
                 }
-                if (round == 10)
+                if (round == 2)
                 {
                     bossRoomComplete = true;
                     ShowRoundText(false);
@@ -102,6 +109,9 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
                     //mission complete
                     ShowMissionStatus(missionEndAnnoucement, missionEnd_tooltip);
                     //we want to start a timer for the people to extract
+                    //we want to instantiate something that the players inside have to pick up
+                    SpawnBounty();
+
                     return;
                 }
 
@@ -208,6 +218,25 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
         {
             spawner.GetComponent<BossRoom_OutsideEvent_Spawner>().Activate_OutsideSpawn_Event(amount);
         }
+    }
+    #endregion
+
+    #region BossRoom_Bounty
+    public void SpawnBounty()
+    {
+        photonView.RPC("RPC_SpawnBounty", RpcTarget.MasterClient, zombiesToSpawnPerSpawner);
+    }
+
+    public void DestroyBounty()
+    {
+        //NOT USED
+        Destroy(spawnedBounty);
+    }
+
+    [PunRPC]
+    public void RPC_SpawnBounty(int amount)
+    {
+        spawnedBounty = PhotonNetwork.InstantiateRoomObject("Boss Reward", BountyReward_SpawnLocation.position, BountyReward_SpawnLocation.rotation);
     }
     #endregion
 }

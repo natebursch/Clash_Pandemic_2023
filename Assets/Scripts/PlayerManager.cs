@@ -42,6 +42,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public AudioClip body_hitmarkerSound;
     public AudioClip head_hitmarkerSound;
 
+    //bossroom hat
+    public GameObject bounty_reward;
+    public bool hasBounty;
+
 
     // Start is called before the first frame update
     private void Awake()
@@ -249,6 +253,23 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     {
         weaponHolder[activeWeapon].GetComponent<WeaponManager>().ShootVFX(viewID);
     }
+
+    #region Activating Hat
+    public void ShowHat(bool status)
+    {
+        photonView.RPC("RPC_ShowHat", RpcTarget.All, status, photonView.ViewID);
+    }
+    [PunRPC]
+    public void RPC_ShowHat(bool status, int viewID)
+    {
+        if (photonView.ViewID == viewID)
+        {
+            bounty_reward.SetActive(status);
+            hasBounty = status;
+        }
+    }
+
+    #endregion
 
 
 }
