@@ -5771,6 +5771,8 @@ MonoBehaviour:
   head_hitmarkerSound: {fileID: 8300000, guid: 9b32fd583e08b9640bb033831f498a49, type: 3}
   bounty_reward: {fileID: 1534005695512759151}
   hasBounty: 0
+  inExtraction: 0
+  isWinner: 0
 --- !u!114 &1615715682857788048
 MonoBehaviour:
   m_ObjectHideFlags: 0

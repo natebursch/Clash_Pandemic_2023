@@ -47,6 +47,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public bool hasBounty;
 
     public bool inExtraction;
+    public bool isWinner;
 
 
     // Start is called before the first frame update
@@ -273,5 +274,29 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region End Game
 
+    public void EndGame_Bounty(int viewID)
+    {
+
+        photonView.RPC("RPC_EndGame_Bounty", RpcTarget.All, viewID);
+    }
+    [PunRPC]
+    public void RPC_EndGame_Bounty(int viewID)
+    {
+        if (photonView.ViewID == viewID)
+        {
+            isWinner = true;
+            gameObject.GetComponentInChildren<GameManager>().MainMenuButtonPressed();
+        }
+
+        
+    }
+    [PunRPC]
+    public void RPC_EndGame_NoBounty()
+    {
+
+    }
+
+    #endregion
 }

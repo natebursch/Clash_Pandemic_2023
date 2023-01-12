@@ -51,6 +51,8 @@ MonoBehaviour:
   - RPC_SpawnBounty
   - RPC_ShowHat
   - RPC_Destroy_BountyReward
+  - RPC_EndGame_Bounty
+  - RPC_EndGame_NoBounty
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
