@@ -5093,6 +5093,7 @@ MonoBehaviour:
   endScreen: {fileID: 3751258997482615595}
   endRounds: {fileID: 3751258997613921052}
   pauseScreen: {fileID: 3751258996753233189}
+  bossRoomManager: {fileID: 0}
   photonView: {fileID: 2950974734767020637}
 --- !u!1 &3751258997612700838
 GameObject:
@@ -5802,6 +5803,7 @@ MonoBehaviour:
   masterVolume_InputField: {fileID: 6188969622013793711}
   hitmarker: {fileID: 3007774531815644778}
   interactble_text: {fileID: 6915634931493586759}
+  roundText: {fileID: 0}
 --- !u!54 &3751258996609776025
 Rigidbody:
   m_ObjectHideFlags: 0

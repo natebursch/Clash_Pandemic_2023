@@ -88,7 +88,18 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
         {
             if (player != null)
             {
-                player.GetComponentInChildren<PlayerCanvasManager>().photonView.RPC("ShowRound_Text", RpcTarget.All, state);
+                if (PhotonNetwork.InRoom)
+                {
+
+                    player.GetComponentInChildren<PlayerCanvasManager>().photonView.RPC("ShowRound_Text", RpcTarget.All, state);
+
+                }
+                else
+                {
+
+                    player.GetComponentInChildren<PlayerCanvasManager>().ShowRound_Text(true);
+
+                }
             }
             
         }  
@@ -157,7 +168,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
         //Debug.Log("Round" + round);
 
-        if (PhotonNetwork.InRoom)
+        if (PhotonNetwork.InRoom || players.Count > 0)
         {
             foreach (GameObject player in players)
             {
@@ -165,10 +176,14 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
                 {
                     if (PhotonNetwork.InRoom)
                     {
+
                         player.GetComponentInChildren<PlayerCanvasManager>().photonView.RPC("ShowMissionRound_Text", RpcTarget.All, round);
+
                     }
-
-
+                    else
+                    {
+                        player.GetComponentInChildren<PlayerCanvasManager>().ShowMissionRound_Text(round);
+                    }
                 }
 
             }
@@ -184,24 +199,27 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     }
     public void ShowMissionStatus(string annoucement, string tooltip)
     {
-        foreach(GameObject player in allPlayers)
+        if (allPlayers[0]!=null)
         {
-            Debug.Log("turn player canvas on");
-            if (player!=null)
+            foreach (GameObject player in allPlayers)
             {
-                if (PhotonNetwork.InRoom)
+                Debug.Log("turn player canvas on");
+                if (player != null)
                 {
-                    player.GetComponent<PlayerCanvasManager>().photonView.RPC("ShowMissionAnnouncementRPC", RpcTarget.All, annoucement, tooltip, missionAnnoucement_timer);
+                    if (PhotonNetwork.InRoom)
+                    {
 
+                        player.GetComponent<PlayerCanvasManager>().photonView.RPC("ShowMissionAnnouncementRPC", RpcTarget.All, annoucement, tooltip, missionAnnoucement_timer);
+
+                    }
+                    else
+                    {
+                        player.GetComponent<PlayerCanvasManager>().ShowMissionAnnouncementRPC(annoucement,tooltip, missionAnnoucement_timer);
+                    }
                 }
-                else
-                {
-
-                }
-
-
             }
         }
+
     }
 
     public void NextWave(int round)
@@ -282,7 +300,15 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     #region BossRoom_Bounty
     public void SpawnBounty()
     {
-        photonView.RPC("RPC_SpawnBounty", RpcTarget.MasterClient, zombiesToSpawnPerSpawner);
+        if (PhotonNetwork.InRoom)
+        {
+            photonView.RPC("RPC_SpawnBounty", RpcTarget.MasterClient, zombiesToSpawnPerSpawner);
+        }
+        else
+        {
+            RPC_SpawnBounty(1);
+        }
+
     }
 
     public void DestroyBounty()
@@ -294,7 +320,17 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void RPC_SpawnBounty(int amount)
     {
-        spawnedBounty = PhotonNetwork.InstantiateRoomObject("Boss Reward", BountyReward_SpawnLocation.position, BountyReward_SpawnLocation.rotation);
+        if (PhotonNetwork.InRoom)
+        {
+
+            spawnedBounty = PhotonNetwork.InstantiateRoomObject("Boss Reward", BountyReward_SpawnLocation.position, BountyReward_SpawnLocation.rotation);
+
+        }
+        else
+        {
+            spawnedBounty = Instantiate(Resources.Load("Boss Reward"), BountyReward_SpawnLocation.position, BountyReward_SpawnLocation.rotation) as GameObject;
+
+        }
     }
     #endregion
 }

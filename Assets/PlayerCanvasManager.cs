@@ -69,7 +69,7 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         hitmarker.gameObject.SetActive(true);
         hitmarker.alpha = 0;
 
-        if (!PhotonNetwork.InRoom)
+        if (!PhotonNetwork.InRoom && roundText != null)
         {
             roundText.SetActive(true);
             roundText.GetComponent<TextMeshProUGUI>().text = "Round: 1";
