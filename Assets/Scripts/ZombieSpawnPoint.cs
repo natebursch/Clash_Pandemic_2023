@@ -12,6 +12,9 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
 
     public PhotonView photonView;
 
+    public string[] zombieTypes;
+    public string zombieType;
+
 
     public void Start()
     {
@@ -34,13 +37,17 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
                 Vector3 spawnPos = new Vector3(transform.position.x + Random.Range(-spawnRange, spawnRange), transform.position.y, transform.position.z + Random.Range(-spawnRange, spawnRange));
                 GameObject newEnemy;
 
+                //get random zombie
+                zombieType = zombieTypes[Random.Range(0, zombieTypes.Length)];
+
+
                 if (PhotonNetwork.InRoom)
                 {
                     photonView.RPC("RPC_CreateBasicZombie_OnMaster", RpcTarget.MasterClient, spawnPos);
                 }
                 else
                 {
-                    newEnemy = Instantiate(Resources.Load("ZombieBasic"), spawnPos, Quaternion.identity) as GameObject;
+                    newEnemy = Instantiate(Resources.Load(zombieType), spawnPos, Quaternion.identity) as GameObject;
 
                 }
 
@@ -59,7 +66,7 @@ public class ZombieSpawnPoint : MonoBehaviourPunCallbacks
     [PunRPC]
     void RPC_CreateBasicZombie_OnMaster(Vector3 spawnPos)
     {
-        PhotonNetwork.InstantiateRoomObject("ZombieBasic", spawnPos, Quaternion.identity);
+        PhotonNetwork.InstantiateRoomObject(zombieType, spawnPos, Quaternion.identity);
     }
 
     [PunRPC]

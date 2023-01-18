@@ -64,6 +64,11 @@ MonoBehaviour:
   spawnRange: 4
   spawnDetectionRange: 25
   photonView: {fileID: 6639749709661060528}
+  zombieTypes:
+  - skinless_zombie
+  - modern_zombie
+  - ghoul_zombie
+  zombieType: 
 --- !u!114 &6639749709661060528
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -13,6 +13,10 @@ public class PlayerSpawnPoint : MonoBehaviourPunCallbacks
     public void Spawned(bool spawned)
     {
         hasSpawned = spawned;
+        if (!PhotonNetwork.InRoom)
+        {
+            return;
+        }
         pv.RPC("SyncVar", RpcTarget.AllBuffered, hasSpawned);
     }
 

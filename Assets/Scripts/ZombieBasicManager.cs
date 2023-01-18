@@ -3,8 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Pun;
+
+
+
 public class ZombieBasicManager : MonoBehaviourPunCallbacks
 {
+    
+
     public GameObject player;
     public Animator animator;
     public float damage = 20f;
@@ -41,12 +46,13 @@ public class ZombieBasicManager : MonoBehaviourPunCallbacks
     {
         hasDied = false;
         players = GameObject.FindGameObjectsWithTag("Player");
+        audioSource = gameObject.GetComponent<AudioSource>();
 
 
         audioSource = GetComponent<AudioSource>();
 
         setRigidbodyState(true);
-        setColliderState(false);
+        setColliderState(true);
 
     }
 
@@ -363,7 +369,11 @@ public class ZombieBasicManager : MonoBehaviourPunCallbacks
             }
 
         }
-        GetComponent<Collider>().enabled = !state;
+        if (GetComponent<Collider>()!=null)
+        {
+            GetComponent<Collider>().enabled = !state;
+        }
+        
 
     }
 }

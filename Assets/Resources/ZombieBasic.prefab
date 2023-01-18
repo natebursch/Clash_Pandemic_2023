@@ -2458,7 +2458,6 @@ GameObject:
   - component: {fileID: 8014705920907384724}
   - component: {fileID: 28866247381120975}
   - component: {fileID: 980340089790058053}
-  - component: {fileID: 1235020991}
   - component: {fileID: 2864224991913743966}
   - component: {fileID: 7586101047050357994}
   - component: {fileID: 4856272754872058881}
@@ -2548,20 +2547,6 @@ MonoBehaviour:
   runningSpeed: 5.5
   walkingSpeed: 0.4
   walkingRandomPlace: 0
---- !u!136 &1235020991
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7237887403474013486}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 3
-  m_Direction: 1
-  m_Center: {x: 0, y: 2, z: 0}
 --- !u!54 &2864224991913743966
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2695,7 +2680,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: 2360494115437907241}
   - {fileID: 2753096977757572720}
-  sceneViewId: 0
+  sceneViewId: 17
   InstantiationId: 0
   isRuntimeInstantiated: 0
 --- !u!114 &2360494115437907241
