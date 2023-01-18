@@ -14,6 +14,8 @@ public class ZombieBasicManager : MonoBehaviourPunCallbacks
     public Animator animator;
     public float damage = 20f;
     public float health = 100f;
+    public BossRoomManager gameManager;
+    public bool inBossRoom = false;
 
     public float zombieAttackRange = 2;
     public bool playerInReach;
@@ -253,6 +255,11 @@ public class ZombieBasicManager : MonoBehaviourPunCallbacks
 
                 if (!hasDied)
                 {
+                    if (inBossRoom)
+                    {
+                        Debug.Log("bruh what why");
+                        gameManager.enemiesAlive--;
+                    }
 
                     Destroy(GetComponent<NavMeshAgent>());
                     Destroy(gameObject, 5f);
@@ -296,6 +303,11 @@ public class ZombieBasicManager : MonoBehaviourPunCallbacks
                     if (!PhotonNetwork.InRoom || PhotonNetwork.IsMasterClient && photonView.IsMine)
                     {
 
+                    }
+                    if (inBossRoom)
+                    {
+                        Debug.Log("bruh what why");
+                        gameManager.enemiesAlive--;
                     }
 
                     Destroy(GetComponent<NavMeshAgent>());

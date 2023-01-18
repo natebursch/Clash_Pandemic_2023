@@ -22,12 +22,16 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public GameObject pauseScreen;
 
+    //singleplayer stuff
+    public BossRoomManager bossRoomManager;
+
     public PhotonView photonView;
 
     // Start is called before the first frame update
     void Start()
     {
         //AudioListener.volume = 1;
+        Time.timeScale = 1;
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
         roundText.gameObject.SetActive(false);
         
@@ -119,6 +123,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         Cursor.lockState = CursorLockMode.None;
 
         endRounds.text = "Rounds Survived: " + round;
+
+        if (!PhotonNetwork.InRoom)
+        {
+            endRounds.text = "Died at round : " + bossRoomManager.round;
+        }
         
 
     }
@@ -136,7 +145,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.InRoom)
         {
-            Time.timeScale = 1;
+            Time.timeScale = 0;
+            SceneManager.LoadScene("MainMenu");
         }
         else
         {

@@ -53,6 +53,8 @@ MonoBehaviour:
   - RPC_Destroy_BountyReward
   - RPC_EndGame_Bounty
   - RPC_EndGame_NoBounty
+  - Play_FootStep_FX
+  - RPC_Play_FootStep_FX
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

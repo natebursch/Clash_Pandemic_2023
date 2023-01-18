@@ -21,6 +21,7 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     public float show_missionAnnouncement_time = 3f;
     public float missionAnnoucement_timer = 0;
 
+   
 
     //esc key settings / options settings so on
     public GameObject pauseScreen;
@@ -41,6 +42,9 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
 
     //Interactble Text
     public TextMeshProUGUI interactble_text;
+
+    //round text
+    public GameObject roundText;
 
 
     public void Start()
@@ -64,6 +68,12 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
         //make sure hitmarker is on
         hitmarker.gameObject.SetActive(true);
         hitmarker.alpha = 0;
+
+        if (!PhotonNetwork.InRoom)
+        {
+            roundText.SetActive(true);
+            roundText.GetComponent<TextMeshProUGUI>().text = "Round: 1";
+        }
         
     }
     public void Update()
@@ -197,7 +207,7 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ShowMissionAnnouncementRPC(string announcement,string tooltip, float timeToShow)
     {
-        Debug.Log("HELLO???00");
+        //Debug.Log("HELLO???00");
         missionAnnoucement_Screen.SetActive(true);
         missionAnnoucement_Text.text = announcement;
         missionAnnoucement_ToolTip.text = tooltip;

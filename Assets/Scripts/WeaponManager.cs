@@ -285,7 +285,7 @@ public class WeaponManager : MonoBehaviour
                 //}
 
                 //playhitmarker
-                if (photonView.IsMine)
+                if (photonView.IsMine || !PhotonNetwork.InRoom)
                 {
                     if (hit.transform.gameObject.tag=="Head")
                     {
@@ -318,7 +318,7 @@ public class WeaponManager : MonoBehaviour
                     Debug.Log("Do Normal Damage");
                     //also need headshots here but dont have that yet
                     hitPlayerManger.Hit(bulletBodyDamage);
-                    if (photonView.IsMine)
+                    if (photonView.IsMine || !PhotonNetwork.InRoom)
                     {
                         if (hit.transform.gameObject.tag == "Head")
                         {
@@ -353,7 +353,7 @@ public class WeaponManager : MonoBehaviour
                 ZombieBasicManager enemy = hit.transform.GetComponentInParent<ZombieBasicManager>();
                 //add force
                 //hit.rigidbody.isKinematic = true;
-                if (photonView.IsMine)
+                if (photonView.IsMine || !PhotonNetwork.InRoom)
                 {
                     if (hit.transform.gameObject.tag == "Head")
                     {

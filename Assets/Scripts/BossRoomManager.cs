@@ -20,8 +20,11 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
     public List<GameObject> players;
     public GameObject[] allPlayers;
+    //things needed for singleplayer
+    public PlayerCanvasManager singlePlayer;
 
     public bool bossRoomDiscovered;
+    public int roundsToComplete = 2;
     public bool bossRoomComplete;
 
     //PANDEMIC HAS BEEN STARTED? IDK
@@ -42,19 +45,28 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     public string bountyHasBeenGrabbed_Announcement = "BOUNTY HAS BEEN PICKED UP";
     public string bountyHasBeenGrabbed_tooltip = "Kill the player with the Cowboy Hat";
 
+
+    public string[] zombieTypes;
+    private string zombieType;
+
+
     private void Awake()
     {
         // delete if a new instance is created
-        if (Instance)
+        if (PhotonNetwork.InRoom)
         {
-            Destroy(Instance);
-            return;
+            if (Instance)
+            {
+                Destroy(Instance);
+                return;
+            }
+
+            //dont destroy the first room instance
+            // and make this instance the singleton
+            Instance = this;
+            DontDestroyOnLoad(Instance);
         }
 
-        //dont destroy the first room instance
-        // and make this instance the singleton
-        Instance = this;
-        DontDestroyOnLoad(Instance);
 
     }
 
@@ -62,6 +74,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
 
         spawnPoints = GameObject.FindGameObjectsWithTag("Spawners");
+
 
         // not getting the other connected players :OOOOOO
         //only gets first connected player
@@ -101,7 +114,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
                     StartOutside_Events();
 
                 }
-                if (round == 2)
+                if (round == roundsToComplete)
                 {
                     bossRoomComplete = true;
                     ShowRoundText(false);
@@ -120,6 +133,7 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
                 if (PhotonNetwork.InRoom)
                 {
+
                     Hashtable hash = new Hashtable();
                     hash.Add("CurrentRound", round);
                     PhotonNetwork.LocalPlayer.SetCustomProperties(hash);
@@ -143,15 +157,30 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
     {
         //Debug.Log("Round" + round);
 
-        foreach (GameObject player in players)
+        if (PhotonNetwork.InRoom)
         {
-            if (player != null)
+            foreach (GameObject player in players)
             {
-                player.GetComponentInChildren<PlayerCanvasManager>().photonView.RPC("ShowMissionRound_Text", RpcTarget.All, round);
+                if (player != null)
+                {
+                    if (PhotonNetwork.InRoom)
+                    {
+                        player.GetComponentInChildren<PlayerCanvasManager>().photonView.RPC("ShowMissionRound_Text", RpcTarget.All, round);
+                    }
+
+
+                }
+
             }
-            
         }
-        
+        else
+        {
+            singlePlayer.roundText.SetActive(true);
+            singlePlayer.roundText.GetComponent<TextMeshProUGUI>().text = "Round: " + round;
+
+        }
+
+
     }
     public void ShowMissionStatus(string annoucement, string tooltip)
     {
@@ -160,7 +189,16 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
             Debug.Log("turn player canvas on");
             if (player!=null)
             {
-                player.GetComponent<PlayerCanvasManager>().photonView.RPC("ShowMissionAnnouncementRPC", RpcTarget.All, annoucement, tooltip, missionAnnoucement_timer);
+                if (PhotonNetwork.InRoom)
+                {
+                    player.GetComponent<PlayerCanvasManager>().photonView.RPC("ShowMissionAnnouncementRPC", RpcTarget.All, annoucement, tooltip, missionAnnoucement_timer);
+
+                }
+                else
+                {
+
+                }
+
 
             }
         }
@@ -173,17 +211,33 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
             GameObject spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
             GameObject enemy;
 
+            //get random zombie
+            zombieType = zombieTypes[Random.Range(0, zombieTypes.Length)];
+
+
             if (PhotonNetwork.InRoom)
             {
-                enemy = PhotonNetwork.Instantiate("Zombie", spawnPoint.transform.position, Quaternion.identity);
+                enemy = PhotonNetwork.Instantiate(zombieType, spawnPoint.transform.position, Quaternion.identity);
             }
             else
             {
-                enemy = Instantiate(Resources.Load("Zombie"), spawnPoint.transform.position, Quaternion.identity) as GameObject;
+                enemy = Instantiate(Resources.Load(zombieType), spawnPoint.transform.position, Quaternion.identity) as GameObject;
+                enemy.GetComponent<ZombieBasicManager>().attackDistance = 1000;
 
             }
 
-            enemy.GetComponent<EnemyManager>().gameManager = gameObject.GetComponent<BossRoomManager>();
+            if (enemy.GetComponent<EnemyManager>() != null)
+            {
+                enemy.GetComponent<EnemyManager>().gameManager = gameObject.GetComponent<BossRoomManager>();
+
+            }
+            else
+            {
+                enemy.GetComponent<ZombieBasicManager>().gameManager = gameObject.GetComponent<BossRoomManager>();
+                enemy.GetComponent<ZombieBasicManager>().inBossRoom = true;
+
+            }
+
 
             enemiesAlive++;
         }
@@ -208,7 +262,11 @@ public class BossRoomManager : MonoBehaviourPunCallbacks
 
     public void StartOutside_Events()
     {
-        photonView.RPC("RPC_StartOutside_Events", RpcTarget.MasterClient, zombiesToSpawnPerSpawner);
+        if (PhotonNetwork.InRoom)
+        {
+            photonView.RPC("RPC_StartOutside_Events", RpcTarget.MasterClient, zombiesToSpawnPerSpawner);
+        }
+
     }
 
     [PunRPC]

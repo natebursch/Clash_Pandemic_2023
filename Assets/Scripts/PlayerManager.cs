@@ -53,7 +53,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     private void Awake()
     {
-        teamNumber = FindObjectOfType<Pandemic_RoomManager>().teamNumber;
+        if (PhotonNetwork.InRoom)
+        {
+            teamNumber = FindObjectOfType<Pandemic_RoomManager>().teamNumber;
+        }
+
     }
     void Start()
     {
@@ -150,10 +154,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks
             //make player notmovable
             //should probably also delete the player body idk we can just freeze it
             //gameObject.GetComponent<PlayerCanvasManager>().DisableCharacter(true);
-            
 
             gameManager.EndGame();
-            gameObject.GetComponentInChildren<GameManager>().MainMenuButtonPressed();
+
+            if (PhotonNetwork.InRoom)
+            {
+                gameManager.EndGame();
+                gameObject.GetComponentInChildren<GameManager>().MainMenuButtonPressed();
+            }
+            else
+            {
+                playerCanvasManager.DisableCharacter(true);
+            }
+
         }
 
         if (points > 0)
