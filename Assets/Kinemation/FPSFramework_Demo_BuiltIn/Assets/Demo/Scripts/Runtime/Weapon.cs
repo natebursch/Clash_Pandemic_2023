@@ -11,10 +11,12 @@ namespace Demo.Scripts.Runtime
     {
         [SerializeField] private AudioSource audioSource;
         [SerializeField] private AudioClip gunShotClip;
-        [SerializeField] private ParticleSystem muzzleEffect;
 
-        [SerializeField] private GameObject shellEjection;
-        [SerializeField] private Transform shellEjectionPort;
+        [SerializeField] private Transform muzzleTransform;
+        [SerializeField] private GameObject muzzleEffect;
+
+        //[SerializeField] private GameObject shellEjection;
+        //[SerializeField] private Transform shellEjectionPort;
 
 
         [SerializeField] private List<Transform> scopes;
@@ -47,17 +49,18 @@ namespace Demo.Scripts.Runtime
 
         private void PlayFireAnim()
         {
-            if (_animator == null)
+            if (_animator != null)
             {
-                return;
+                _animator.Play("Fire", 0, 0f);
             }
-            _animator.Play("Fire", 0, 0f);
+
 
             //play the sound
+            Debug.Log("Penis");
             audioSource.PlayOneShot(gunShotClip);
             //play the muzzleflash
-            muzzleEffect.Play();
-
+            GameObject muzzleFlash = Instantiate(muzzleEffect,muzzleTransform.position,muzzleTransform.rotation);
+            Destroy(muzzleFlash, 3f);
             //shoot a raycast bullet
         }
     }
