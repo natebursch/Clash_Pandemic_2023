@@ -9,6 +9,7 @@ using Photon.Realtime;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
+    public bool newFPS = false;
     public float maxHealth = 150f;
     public float health = 100;
     public TextMeshProUGUI playerHealth;
@@ -198,6 +199,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     }
     public void WeaponSwitch(int weaponToActivate, int currentWeapon)
     {
+        if (newFPS) { return; }
         //first deactivate current weapon
         weaponHolder[currentWeapon].SetActive(false);
 

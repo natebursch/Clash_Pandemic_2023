@@ -148,13 +148,19 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
 
     public void DisableCharacter(bool state)
     {
-        mouseLook.enabled = !state;
-        movement.enabled = !state;
-        
-        foreach (GameObject weapon in weapons)
+        if (mouseLook != null)
         {
-            weapon.GetComponent<WeaponManager>().enabled = !state;
+            mouseLook.enabled = !state;
+            movement.enabled = !state;
+
+            foreach (GameObject weapon in weapons)
+            {
+                weapon.GetComponent<WeaponManager>().enabled = !state;
+            }
         }
+
+        
+
 
         if (state)
         {
@@ -229,6 +235,7 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     public void ChangeMasterVolume(float value)
     {
         AudioListener.volume = value / 100;
+        AudioListener.volume = 1;
     }
     public void MasterVolume_Slider_Changed()
     {

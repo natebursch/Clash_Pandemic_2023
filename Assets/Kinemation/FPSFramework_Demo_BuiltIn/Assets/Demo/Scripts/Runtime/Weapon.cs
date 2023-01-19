@@ -64,6 +64,7 @@ namespace Demo.Scripts.Runtime
 
         private void WeaponFX()
         {
+            Debug.Log("Why");
             audioSource.PlayOneShot(gunShotClip);
             //play the muzzleflash
             GameObject muzzleFlash = Instantiate(muzzleEffect, muzzleTransform.position, muzzleTransform.rotation);
