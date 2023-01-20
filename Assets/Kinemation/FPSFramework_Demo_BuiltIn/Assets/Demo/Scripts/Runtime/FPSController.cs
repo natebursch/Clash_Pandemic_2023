@@ -62,9 +62,9 @@ using UnityEngine;
 
         private float _fireTimer = -1f;
         private int _bursts;
-        private bool _crouching;
-        private bool _sprinting;
-        private bool _aiming;
+        public bool _crouching;
+        public bool _sprinting;
+        public bool _aiming;
         private bool _reloading;
 
         private float _lowerCapsuleOffset;

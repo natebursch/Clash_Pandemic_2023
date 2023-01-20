@@ -51,7 +51,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public bool isWinner;
 
     //all of the colliders on character
-    public Collider[] colliders;
+
     // Start is called before the first frame update
     private void Awake()
     {
@@ -82,15 +82,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
         if (newFPS)
         {
-            colliders = GetComponentsInChildren<Collider>();
-            foreach (Collider collider in colliders)
-            {
-                if (collider.gameObject.GetComponent<FPSController>())
-                {
-                    return;
-                }
-                collider.isTrigger = true;
-            }
+
         }
 
 
