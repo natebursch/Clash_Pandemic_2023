@@ -235,7 +235,7 @@ public class PlayerCanvasManager : MonoBehaviourPunCallbacks
     public void ChangeMasterVolume(float value)
     {
         AudioListener.volume = value / 100;
-        AudioListener.volume = 1;
+        AudioListener.volume = .5f;
     }
     public void MasterVolume_Slider_Changed()
     {

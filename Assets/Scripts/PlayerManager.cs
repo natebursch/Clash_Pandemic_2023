@@ -50,7 +50,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     public bool inExtraction;
     public bool isWinner;
 
-
+    //all of the colliders on character
+    public Collider[] colliders;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -78,6 +79,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         //make sure only primary weapon is showing
         WeaponSwitch(0, 0);
         activeWeapon = 0;
+
+        if (newFPS)
+        {
+            colliders = GetComponentsInChildren<Collider>();
+            foreach (Collider collider in colliders)
+            {
+                if (collider.gameObject.GetComponent<FPSController>())
+                {
+                    return;
+                }
+                collider.isTrigger = true;
+            }
+        }
 
 
     }

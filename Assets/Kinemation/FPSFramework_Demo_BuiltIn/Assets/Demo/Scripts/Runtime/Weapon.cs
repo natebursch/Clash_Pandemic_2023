@@ -40,6 +40,7 @@ namespace Demo.Scripts.Runtime
         private Animator _animator;
         private int _scopeIndex;
 
+        public PlayerManager playerManager;
 
         //multiplayer
         [Header("Multiplayer Stuff")]
@@ -47,6 +48,7 @@ namespace Demo.Scripts.Runtime
         private void Start()
         {
             _animator = GetComponent<Animator>();
+            playerManager = GetComponentInParent<PlayerManager>();
 
         }
 
@@ -87,7 +89,12 @@ namespace Demo.Scripts.Runtime
         private void Shoot()
         {
             RaycastHit hit;
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, bulletRange))
+            //Debug.DrawRay(playerCamera.transform.position, transform.TransformDirection(-Vector3.forward) * 100, Color.green,5f);
+
+            //Debug.DrawRay(muzzleTransform.transform.position, transform.TransformDirection(-Vector3.forward) * 100, Color.yellow, 5f);
+
+            //USING THE MUZZLE INSTEAD OF THE FUCKING CAMERA
+            if (Physics.Raycast(muzzleTransform.transform.position, playerCamera.transform.forward, out hit, bulletRange))
             {
                 if (hit.transform.gameObject.tag == null) { return; }
                 string hitTag = hit.transform.gameObject.tag;
@@ -121,15 +128,20 @@ namespace Demo.Scripts.Runtime
                     ZombieBasicManager enemyMan = enemy.GetComponent<ZombieBasicManager>();
 
                     //FOR POINTS
+                    if (enemyMan.health <= 0 && !enemy.GetComponent<ZombieBasicManager>().hasDied)
+                    {
+                        playerManager.UpdatePoints(enemy.worthPoints);
+                    }
+                    //hitmarker
+                    if (hit.transform.gameObject.tag == "Head")
+                    {
+                        playerManager.HitMarker_FX(true);
+                    }
+                    else
+                    {
+                        playerManager.HitMarker_FX(false);
+                    }
 
-                    //if (enemyMan.health <= 0 && !enemy.GetComponent<ZombieBasicManager>().hasDied)
-                    //{
-                    //    playerManager.UpdatePoints(enemy.worthPoints);
-                    //}
-                    //if (enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage))
-                    //{
-                    //    playerManager.UpdatePoints(enemy.worthPoints);
-                    //}
                 }
 
 

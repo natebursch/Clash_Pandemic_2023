@@ -3,11 +3,11 @@
 // Edited by Nate Bursch
 
 using System.Collections.Generic;
+using Demo.Scripts.Runtime;
 using Kinemation.FPSFramework.Runtime.Core;
 using UnityEngine;
 
-namespace Demo.Scripts.Runtime
-{
+
     public class FPSController : MonoBehaviour
     {
         [Header("FPS Framework")]
@@ -535,4 +535,3 @@ namespace Demo.Scripts.Runtime
             UpdateCameraRotation();
         }
     }
-}
