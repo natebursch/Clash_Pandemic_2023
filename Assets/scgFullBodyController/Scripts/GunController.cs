@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
 
 
     [RequireComponent(typeof(AudioSource))]
@@ -97,6 +98,18 @@ using UnityEngine.UI;
     [SerializeField] private KeyCode grenadeKey = KeyCode.G;
     [SerializeField] private KeyCode reloadKey = KeyCode.R;
 
+    [Header("Gun Options")]
+    public float bulletRange = 100f;
+    public float bulletBodyDamage = 50f;
+    public float bulletHeadShotDamage = 100f;
+    public float friendlyFireReduction = 3;
+    //bullet impact force
+    public float bulletForce = 10000f;
+
+    [Header("Multiplayer Stuff")]
+    public PhotonView photonView;
+
+
     void OnEnable()
         {
             if (Weapon == WeaponTypes.Rifle)
@@ -124,6 +137,7 @@ using UnityEngine.UI;
 
         void Start()
         {
+        photonView = GetComponentInParent<PhotonView>();
             //Set the ammo count
             bulletsInMag = bulletsPerMag;
             originalCamPos = mainCam.transform.localPosition;
@@ -393,33 +407,236 @@ using UnityEngine.UI;
 
         void spawnBullet()
         {
-            GameObject tempBullet;
-            if (shootFromCamera)
+        //GameObject tempBullet;
+        //if (shootFromCamera)
+        //{
+        //    //Spawn bullet from the camera shoot point position, not from the true tip of the gun
+        //    tempBullet = Instantiate(Bullet, shootPointCamera.transform.position, shootPointCamera.transform.rotation) as GameObject;
+        //    tempBullet.GetComponent<registerHit>().damage = Damage;
+        //}
+        //else
+        //{
+        //    //Spawn bullet from the shoot point position, the true tip of the gun
+        //    tempBullet = Instantiate(Bullet, shootPoint.transform.position, shootPoint.transform.rotation) as GameObject;
+        //    tempBullet.GetComponent<registerHit>().damage = Damage;
+        //}
+
+        ////Orient it
+        //tempBullet.transform.Rotate(Vector3.left * 90);
+
+        ////Add forward force based on where camera is pointing
+        //Rigidbody tempRigidBody;
+        //tempRigidBody = tempBullet.GetComponent<Rigidbody>();
+
+        ////Always shoot towards where camera is facing
+        //tempRigidBody.AddForce(mainCam.transform.forward * bulletVelocity);
+
+        ////Destroy after time
+        //Destroy(tempBullet, bulletDespawnTime);
+
+
+        //currentAmmo--;
+        //UpdateGUIText();
+        //waepon effects
+        //animator.SetBool("isShooting", true);
+
+        //sfx
+        //if (PhotonNetwork.InRoom)
+        //{
+        //    photonView.RPC("WeaponShootVFX", RpcTarget.All, photonView.ViewID);
+        //}
+        //else
+        //{
+        //    //ShootVFX(photonView.ViewID);
+        //}
+
+        //stores information in a raycast struct
+        RaycastHit hit;
+
+
+
+        if (Physics.Raycast(shootPointCamera.transform.position, shootPointCamera.transform.forward, out hit, bulletRange))
+        {
+            if (hit.transform.gameObject.tag == null)
             {
-                //Spawn bullet from the camera shoot point position, not from the true tip of the gun
-                tempBullet = Instantiate(Bullet, shootPointCamera.transform.position, shootPointCamera.transform.rotation) as GameObject;
-                tempBullet.GetComponent<registerHit>().damage = Damage;
+                return;
             }
+
+            Debug.Log(hit.transform.gameObject.tag);
+
+            //if hit a zombie
+            if (hit.transform.GetComponentInParent<EnemyManager>() != null)
+            {
+                EnemyManager enemy = hit.transform.GetComponentInParent<EnemyManager>();
+                //add force
+                //hit.rigidbody.isKinematic = true;
+                hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
+
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("BloodHitEffect", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("BloodHitEffect"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
+
+                Destroy(hitObject, .5f);
+
+                //hitObject.GetComponent<ParticleSystem>().Play();
+                //hitObject.transform.position = hit.transform.position;
+
+                //enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage);
+                //if enemy health is < 0 add points
+                //enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage, photonView.ViewID, gameObject);
+                EnemyManager enemyMan = enemy.GetComponent<EnemyManager>();
+
+                if (enemyMan.health <= 0 && !enemy.GetComponent<EnemyManager>().hasDied)
+                {
+                    //playerManager.UpdatePoints(enemy.worthPoints);
+                }
+                //if (enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage))
+                //{
+                //    playerManager.UpdatePoints(enemy.worthPoints);
+                //}
+
+                //playhitmarker
+                //if (photonView.IsMine || !PhotonNetwork.InRoom)
+                //{
+                //    if (hit.transform.gameObject.tag == "Head")
+                //    {
+                //        playerManager.HitMarker_FX(true);
+                //    }
+                //    else
+                //    {
+                //        playerManager.HitMarker_FX(false);
+                //    }
+
+                //}
+
+            }
+            //if hit player
+            else if (hit.transform.GetComponentInParent<PlayerManager>() != null)
+            {
+                PlayerManager hitPlayerManger = hit.transform.GetComponentInParent<PlayerManager>();
+                Debug.Log("The player that was hit: Team " + hitPlayerManger.teamNumber);
+                Debug.Log("The player that shot: Team " + gameObject.GetComponentInParent<PlayerManager>().teamNumber);
+                if (hitPlayerManger.teamNumber == gameObject.GetComponentInParent<PlayerManager>().teamNumber)
+                {
+                    //same team
+                    Debug.Log("Do reduced damage");
+                    //check if body or head but i dont have it set up atm
+                    hitPlayerManger.Hit(Mathf.Floor(bulletBodyDamage / friendlyFireReduction));
+
+                }
+                else
+                {
+                    Debug.Log("Do Normal Damage");
+                    //also need headshots here but dont have that yet
+                    hitPlayerManger.Hit(bulletBodyDamage);
+                    //if (photonView.IsMine || !PhotonNetwork.InRoom)
+                    //{
+                    //    if (hit.transform.gameObject.tag == "Head")
+                    //    {
+                    //        playerManager.HitMarker_FX(true);
+                    //    }
+                    //    else
+                    //    {
+                    //        playerManager.HitMarker_FX(false);
+                    //    }
+
+                    //}
+                }
+                //effects
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("BloodHitEffect", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("BloodHitEffect"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
+
+                Destroy(hitObject, .5f);
+
+            }
+            //if hit basic zombie.... LOL i just need to make some inheritence go on, but we can do that later........ maybe
+            else if (hit.transform.GetComponentInParent<ZombieBasicManager>() != null)
+            {
+                ZombieBasicManager enemy = hit.transform.GetComponentInParent<ZombieBasicManager>();
+                //add force
+                //hit.rigidbody.isKinematic = true;
+                //if (photonView.IsMine || !PhotonNetwork.InRoom)
+                //{
+                //    if (hit.transform.gameObject.tag == "Head")
+                //    {
+                //        playerManager.HitMarker_FX(true);
+                //    }
+                //    else
+                //    {
+                //        playerManager.HitMarker_FX(false);
+                //    }
+
+                //}
+
+                hit.rigidbody.AddForceAtPosition(-transform.TransformDirection(Vector3.forward) * bulletForce, hit.point);
+
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("BloodHitEffect", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("BloodHitEffect"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
+                Destroy(hitObject, .5f);
+
+                hitObject.GetComponent<ParticleSystem>().Play();
+                hitObject.transform.position = hit.transform.position;
+
+
+                enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage, photonView.ViewID, gameObject);
+                ZombieBasicManager enemyMan = enemy.GetComponent<ZombieBasicManager>();
+
+                if (enemyMan.health <= 0 && !enemy.GetComponent<ZombieBasicManager>().hasDied)
+                {
+                    //playerManager.UpdatePoints(enemy.worthPoints);
+                }
+                //if (enemy.Hit(hit.transform.gameObject.tag == "Head" ? bulletHeadShotDamage : bulletBodyDamage))
+                //{
+                //    playerManager.UpdatePoints(enemy.worthPoints);
+                //}
+            }
+
             else
             {
-                //Spawn bullet from the shoot point position, the true tip of the gun
-                tempBullet = Instantiate(Bullet, shootPoint.transform.position, shootPoint.transform.rotation) as GameObject;
-                tempBullet.GetComponent<registerHit>().damage = Damage;
+                GameObject hitObject;
+
+                if (PhotonNetwork.InRoom)
+                {
+                    hitObject = PhotonNetwork.Instantiate("HitParticles", hit.point, Quaternion.LookRotation(hit.normal));
+                }
+                else
+                {
+                    hitObject = Instantiate(Resources.Load("HitParticles"), hit.point, Quaternion.LookRotation(hit.normal)) as GameObject;
+
+                }
+                Destroy(hitObject, .5f);
+
+                hitObject.GetComponent<ParticleSystem>().Play();
             }
 
-            //Orient it
-            tempBullet.transform.Rotate(Vector3.left * 90);
-
-            //Add forward force based on where camera is pointing
-            Rigidbody tempRigidBody;
-            tempRigidBody = tempBullet.GetComponent<Rigidbody>();
-
-            //Always shoot towards where camera is facing
-            tempRigidBody.AddForce(mainCam.transform.forward * bulletVelocity);
-
-            //Destroy after time
-            Destroy(tempBullet, bulletDespawnTime);
         }
+    }
 
         void spawnShell()
         {
