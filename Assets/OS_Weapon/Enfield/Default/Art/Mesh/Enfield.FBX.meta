@@ -1,44 +1,95 @@
 fileFormatVersion: 2
 guid: 6f4d1efaab70acd4ea3e51fbf10851bc
-timeCreated: 1499507780
-licenseType: Store
 ModelImporter:
-  serializedVersion: 19
-  fileIDToRecycleName:
-    100000: Collar
-    100002: //RootNode
-    100004: MuzzleSight
-    100006: Shutter
-    100008: Trigger
-    400000: Collar
-    400002: //RootNode
-    400004: MuzzleSight
-    400006: Shutter
-    400008: Trigger
-    2300000: Collar
-    2300002: //RootNode
-    2300004: MuzzleSight
-    2300006: Shutter
-    2300008: Trigger
-    3300000: Collar
-    3300002: //RootNode
-    3300004: MuzzleSight
-    3300006: Shutter
-    3300008: Trigger
-    4300000: Base
-    4300002: Shutter
-    4300004: Trigger
-    4300006: Collar
-    4300008: MuzzleSight
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Collar
+  - first:
+      1: 100002
+    second: //RootNode
+  - first:
+      1: 100004
+    second: MuzzleSight
+  - first:
+      1: 100006
+    second: Shutter
+  - first:
+      1: 100008
+    second: Trigger
+  - first:
+      4: 400000
+    second: Collar
+  - first:
+      4: 400002
+    second: //RootNode
+  - first:
+      4: 400004
+    second: MuzzleSight
+  - first:
+      4: 400006
+    second: Shutter
+  - first:
+      4: 400008
+    second: Trigger
+  - first:
+      23: 2300000
+    second: Collar
+  - first:
+      23: 2300002
+    second: //RootNode
+  - first:
+      23: 2300004
+    second: MuzzleSight
+  - first:
+      23: 2300006
+    second: Shutter
+  - first:
+      23: 2300008
+    second: Trigger
+  - first:
+      33: 3300000
+    second: Collar
+  - first:
+      33: 3300002
+    second: //RootNode
+  - first:
+      33: 3300004
+    second: MuzzleSight
+  - first:
+      33: 3300006
+    second: Shutter
+  - first:
+      33: 3300008
+    second: Trigger
+  - first:
+      43: 4300000
+    second: Base
+  - first:
+      43: 4300002
+    second: Shutter
+  - first:
+      43: 4300004
+    second: Trigger
+  - first:
+      43: 4300006
+    second: Collar
+  - first:
+      43: 4300008
+    second: MuzzleSight
+  externalObjects: {}
   materials:
-    importMaterials: 1
+    materialImportMode: 1
     materialName: 1
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -46,12 +97,15 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
+    extraUserProperties: []
     clipAnimations: []
     isReadable: 1
   meshes:
@@ -59,28 +113,74 @@ ModelImporter:
     globalScale: 1
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importVisibility: 0
     importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 0
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
-    skeleton: []
+    skeleton:
+    - name: Enfield(Clone)
+      parentName: 
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Shutter
+      parentName: Enfield(Clone)
+      position: {x: 0.00000029729733, y: 0.18327393, z: 0.13218658}
+      rotation: {x: -0.000000059604645, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Trigger
+      parentName: Enfield(Clone)
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Collar
+      parentName: Enfield(Clone)
+      position: {x: 0.000000011439127, y: -0.030315476, z: 0.2603273}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: MuzzleSight
+      parentName: Enfield(Clone)
+      position: {x: 0.00000010838462, y: 0.22592285, z: 2.406333}
+      rotation: {x: 0.000000059604645, y: 0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -88,14 +188,18 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 0
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 0
   userData: 
   assetBundleName: 
