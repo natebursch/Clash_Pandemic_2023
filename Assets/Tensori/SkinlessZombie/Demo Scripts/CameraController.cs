@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class TesoriCameraController : MonoBehaviour
 {
     [SerializeField]private float cameraSpeed = 1.5f;
     [SerializeField]private float rotationSpeed = 30f;
